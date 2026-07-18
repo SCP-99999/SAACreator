@@ -1,53 +1,73 @@
-## TNOCreator
-基于Vue3，无服务端，纯前端应用，数据存储于IndexedDB
+# 🚨 项目状态声明 / Project Status
 
-### 安装
+> **⚠️ 注意：本项目目前存在遗留技术问题，尚未完全修复，无法直接正常运行。**
+>
+> **⚠️ NOTE: This project currently has unresolved technical issues and cannot be run correctly at this time.**
+>
+> 具体表现为：在页面中双击富文本进行编辑时，会出现黑边错位、文字高亮黑块等问题。目前正在等待社区大佬/开源大神协助解决。
+>
+> Issue: [在此处填写你的 GitHub Issue 链接，如果没有可写：待提交修复]
+> 
+> **如果你想体验/使用完整功能，请等待未来的修复更新。**
+> **If you wish to use the full features, please wait for future updates.**
+>
+> ---
 
-0. git clone 仓库
+# SAA Creator
 
-1. 安装 npm(bun), vite
+基于 Vue3 的纯前端应用，数据持久化存储于浏览器 IndexedDB。
 
-2. npm 安装依赖：`npm install`
+本项目支持原版《稳定高于一切》(SAA) 的海盗协议（Pirate License），允许二次创作。
+此工具仅供制作《稳定高于一切》系列同人作品使用，与官方原著无直接关联。无任何政治意图，请勿过度解读！
 
-3. 编译：`npm run build`
+---
 
-4. 下载TFR素材[数据库](http://997779.best/share/TNOdata.zip) **(解压后735.5MB)**
+### 🚀 安装与使用
 
-5. 将其解压到dist/data文件夹
+1. 克隆本仓库：
+   `git clone [仓库地址]`
 
-6. 配置Apache httpd/Nginx 运行静态网站
+2. 安装包管理器（如 `bun`, `npm`）及 `vite`。
 
-### **注意了...**
+3. 安装项目依赖：
+   `npm install`
 
-0. 理论上这个项目已经做完了但是后续可能会交给GPT优化（
+4. 编译打包项目：
+   `npm run build`
 
-1. 输入框可以输入HTML格式文本
+5. **【可选】** 下载 TNO / 素材数据库（由于项目默认包含的图包较小，如需使用完整预设素材，请下载下方数据包）：
+   👉 [下载由 HittyGubby 大佬提供的 TNO 数据库 (解压后约 735.5MB)](http://997779.best/share/TNOdata.zip)
+   
+   *注：下载后，请将解压出的 `data` 文件夹放入编译生成的 `dist/data` 目录下。*
 
-2. 因为抛弃了服务端所以不支持用户功能和多设备云同步
+6. 配置静态服务器（如 Apache httpd 或 Nginx），将 `dist` 目录作为网站根目录运行即可。
 
+---
 
-### Installation
+### ⚠️ 注意事项
 
-0. clone this repo
+- 本项目的文本输入框**支持直接输入 HTML 格式代码**（例如 `<span style="color:red">文字</span>`），可实现富文本效果。
+- 由于采用纯前端、无服务端架构，目前**不支持用户系统、账号管理以及多设备云同步**。
 
-1. install any net package manager and vite
+---
 
-2. install dependencies `npm install`
+### Installation (English)
 
-3. compile `npm run build`
+0. Clone this repository.
+1. Install a package manager (e.g., `bun`, `npm`) and `vite`.
+2. Install dependencies: `npm install`.
+3. Build the project: `npm run build`.
+4. **【Optional】** Download the asset [Database](http://997779.best/share/TNOdata.zip) **(~735.5MB after extraction)**.
+5. Decompress it to the `dist/data` folder.
+6. Configure your static server (Apache httpd or Nginx) and serve the `dist` directory.
 
-4. download TFR [Database](http://997779.xyz/share/TNOdata.zip) **(735.5MB after inflating)**
+### Important Notes
+- Input fields support raw HTML formatting.
+- User account management and cloud sync are **not supported** due to the serverless nature of the project.
 
-5. decompress to dist/data
+---
 
-6. configure your Apache httpd/Nginx and serve static site
-
-### **Important**
-
-0. Technically this project has been completed, but maybe debloating in future using random chatbot...
-
-1. Raw Html format text is supported in input boxes
-
-2. Per-user functionalities and cloud sync is not supported since using serverless mode (vps's gonna get fucked up, wtf is disk compression)
-
-**OK. NO MORE CRAP.**
+### 🙏 致谢
+- 本项目 UI 框架引擎源自 [HittyGubby/TNOCreator](https://github.com/HittyGubby/TNOCreator)，在此致敬原作者的开源精神。
+-感谢[hoil-eu-tfs-tno](https://space.bilibili.com/1332747906)提供的SAA模板
+本人代码写的依托，还是借助Deepseek的力量搞出来的，能用就行， 请 见 谅 😅

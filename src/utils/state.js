@@ -2,6 +2,8 @@ import { reactive, watch } from 'vue';
 import { saveData } from "@/utils/onload.js";
 
 export const state = reactive({
+  // 用于存放主窗口和独立旗帜框共享的图片链接
+  globalFlagUrl: null,
   chartData: {
     labels: [
       "秘传纳粹主义",
@@ -42,32 +44,7 @@ export const state = reactive({
       rotation: 90,
     },
   },
-  spiritPictures: [
-    {
-      id: 1,
-      url: "/preset/Reich_GER_idea_GER_endsieg_old.png",
-      filename: "Reich_GER_idea_GER_endsieg_old",
-      scale: 1.0
-    },
-    {
-      id: 2,
-      url: "/preset/Reich_GER_idea_GER_gone_over.png",
-      filename: "Reich_GER_idea_GER_gone_over",
-      scale: 1.0
-    },
-    {
-      id: 3,
-      url: "/preset/Reich_GER_idea_GER_the_two_principles.png",
-      filename: "Reich_GER_idea_GER_the_two_principles",
-      scale: 1.0
-    },
-    {
-      id: 4,
-      url: "/preset/Reich_GER_idea_GER_to_banish_want.png",
-      filename: "Reich_GER_idea_GER_to_banish_want",
-      scale: 1.0
-    },
-  ],
+  
   windows: {
     main: {
       name: "主窗口",
@@ -91,28 +68,18 @@ export const state = reactive({
     },
     news: {
       name: "新闻",
-      x: 900,
-      y: 150,
+      x: -30,
+      y: 200,
       w: 1,
       h: 1,
       zIndex: 1,
-      visible: true,
+      visible: false,
       active: false,
     },
     superevent: {
       name: "超事件",
-      x: 330,
+      x: 475,
       y: 240,
-      w: 1,
-      h: 1,
-      zIndex: 1,
-      visible: true,
-      active: false,
-    },
-    economy: {
-      name: "经济",
-      x: 525,
-      y: 165,
       w: 1,
       h: 1,
       zIndex: 1,
@@ -126,15 +93,29 @@ export const state = reactive({
       w: 1,
       h: 1,
       zIndex: 1,
+      visible: false,
+      active: false,
+    },
+    flag: {
+      name: "旗帜框",
+      x: 700,      // 初始 X 坐标，出来后在屏幕中间偏右
+      y: 0,      // 初始 Y 坐标
+      w: 290,      // 底图初始宽度 (估计值，可以微调)
+      h: 150,      // 底图初始高度
+      minW: 150,    // 👈 锁死最小宽度，防止缩成一条线
+      maxW: 600,    // 👈 锁死最大宽度，防止撑破屏幕
+      minH: 100,    // 👈 锁死最小高度
+      maxH: 400,    // 👈 锁死最大高度
+      zIndex: 1,
       visible: true,
       active: false,
     },
-    spirit: {
-      name: "国家精神",
-      x: 525,
-      y: 5,
-      w: 1,
-      h: 1,
+    altLeader: {
+      name: "副领导人",
+      x: 540,      // 初始横向位置
+      y: 0,       // 初始纵向位置
+      w: 200,       // 初始宽度
+      h: 280,       // 初始高度
       zIndex: 1,
       visible: true,
       active: false,
@@ -142,6 +123,11 @@ export const state = reactive({
   }
 });
 
+// ✅ 完美合一的防抖监听器（保障“改了立即生效，不需刷新”）
+let saveTimer = null;
 watch(state, () => {
-  saveData();
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    saveData();
+  }, 500); 
 }, { deep: true });

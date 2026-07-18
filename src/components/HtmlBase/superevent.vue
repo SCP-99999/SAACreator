@@ -41,6 +41,7 @@ onMounted(() => {
   windowElement.addEventListener("mousedown", prioritizeWindow);
 });
 </script>
+
 <template>
   <div class="draggable" id="superwindow" style="
       position: absolute;
@@ -51,82 +52,95 @@ onMounted(() => {
     ">
     <img src="/template/super_frame.png" style="position: relative; z-index: 1" data-modifiable="true" data-type="super"
       data-resizable="false" data-target-id="superpic" />
+      
     <div style="
         position: absolute;
-        position: absolute;
-        top: 90px;
-        left: 5px;
-        width: 1040px;
-        height: 710px;
+        top: 105px;
+        left: 35px;
+        width: 950px;
+        height: 715px;
       ">
       <img id="superpic" class="pic" src="/preset/german_civil_war.png"
         style="height: inherit; width: inherit; z-index: 0" />
     </div>
-    <div style="
-        position: absolute;
-        position: absolute;
-        top: 570px;
-        left: 60px;
-        width: 980px;
-        height: 230px;
-      ">
-      <img src="/template/superevent_text_underlay.png" style="height: inherit; width: inherit; z-index: 0" />
-    </div>
-    <button id="superbutton" class="button text" style="
-        position: absolute;
-        top: 820px;
-        left: 350px;
-        scale: 1.6;
-        transition: 0.2s;
-        background: url(&quot;/template/spacebar.png&quot;) no-repeat;
-        border: none;
-        width: 359px;
-        height: 36px;
-        font-family: Bombard, FZWH;
-        font-size: 21px;
-        color: #cccccc;
-        z-index: 5;
-        text-shadow: 1px 1px 2px black;
-      ">
-      风云已起
-    </button>
+
+    <!-- ===================================================== -->
+    <!-- ⭐ 标题：单标签 + 2px 四周硬偏移克隆，绝不重影     -->
+    <!-- ===================================================== -->
     <div style="
         position: absolute;
         display: flex;
         left: 230px;
-        top: 45px;
+        top: 19px;
         justify-content: center;
         align-items: center;
         inline-size: 570px;
+        z-index: 5;
       ">
-      <p id="supertitle" class="text" style="
-          color: white;
-          position: absolute;
-          text-align: center;
+      <p id="supertitle" class="text" contenteditable="true" style="
+          position: relative;
+          color: #c6c6c8;
           font-family: Aldrich, FZRui;
           font-size: 32px;
-          z-index: 5;
-          text-shadow: 1px 1px 2px black;
+          text-align: center;
+          margin: 0;
+          text-shadow: 
+            -2px -2px 0 #000000,
+             2px -2px 0 #000000,
+            -2px  2px 0 #000000,
+             2px  2px 0 #000000;
         ">
         德国内战
       </p>
     </div>
-    <span id="supermotto" class="text" style="
-        text-shadow: 1px 1px 2px black;
-        position: absolute;
-        left: 120px;
-        top: 580px;
-        z-index: 5;
-        color: #ffffff;
-        inline-size: 900px;
-        font-family: Bombard, FZWH;
-        font-size: 35px;
-        text-align: right;
-        white-space: pre-line;
-      ">
+
+    <!-- ===================================================== -->
+    <!-- ⭐ 按钮：单标签 + 2px 四周硬偏移克隆                -->
+    <!-- ===================================================== -->
+    <div style="position: absolute; top: 845px; left: 325px; z-index: 5;">
+      <button id="superbutton" class="button text" contenteditable="true" style="
+          position: relative;
+          width: 359px;
+          height: 36px;
+          background: url(&quot;/template/spacebar.png&quot;) no-repeat;
+          border: none;
+          scale: 1.6;
+          color: #ffffff;
+          font-family: Bombard, FZWH;
+          font-size: 21px;
+          text-shadow: 
+            -2px -2px 0 #000000,
+             2px -2px 0 #000000,
+            -2px  2px 0 #000000,
+             2px  2px 0 #000000;
+        ">
+        风云已起
+      </button>
+    </div>
+
+    <!-- ===================================================== -->
+    <!-- ⭐ 名言：终极单标签大法，无惧任何回车换行！         -->
+    <!-- ===================================================== -->
+    <div style="position: absolute; left: 70px; top: 555px; z-index: 5;">
+      <p id="supermotto" class="text" contenteditable="true" style="
+          position: relative;
+          width: 900px;
+          text-align: right;
+          color: #ffffff;
+          font-family: Bombard, FZWH;
+          font-size: 35px;
+          white-space: pre-wrap;
+          text-shadow: 
+            -2px -2px 0 #000000,
+             2px -2px 0 #000000,
+            -2px  2px 0 #000000,
+             2px  2px 0 #000000;
+        ">
       因此，所有人都必须认识到这一点：<br />与国家的存在相比，他的自我毫无意义。
       <br />
       - 阿道夫·希特勒
-    </span>
+</p>
+    </div>
+
   </div>
 </template>
