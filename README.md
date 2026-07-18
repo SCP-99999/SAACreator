@@ -6,7 +6,7 @@
 >
 > 具体表现为：在页面中双击富文本进行编辑时，会出现黑边错位、文字高亮黑块等问题。目前正在等待社区大佬/开源大神协助解决。
 >
-> Issue: [在此处填写你的 GitHub Issue 链接，如果没有可写：待提交修复]
+> Issue: [待提交修复]
 > 
 > **如果你想体验/使用完整功能，请等待未来的修复更新。**
 > **If you wish to use the full features, please wait for future updates.**
