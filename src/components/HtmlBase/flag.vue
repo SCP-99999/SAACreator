@@ -12,6 +12,10 @@ const picManagerTargetId = ref("");
 const picManagerResizable = ref(false);
 let zIndexCounter = 10;
 
+// ✅ 初始长宽为德国旗比例 (360x225)
+const frameWidth = ref(360);
+const frameHeight = ref(225);
+
 const handlePicClick = (event) => {
   const distance = Math.sqrt(
     Math.pow(mousePosition.up.x - mousePosition.down.x, 2) +
@@ -39,6 +43,15 @@ const prioritizeWindow = (event) => {
   }
 };
 
+// ✅ 当图片加载完成时，自动根据宽高比调整窗口尺寸
+const onFlagImageLoad = (e) => {
+  const img = e.target;
+  const ratio = img.naturalWidth / img.naturalHeight;
+  const baseHeight = 225; // 保持默认高度，宽度按比例伸缩
+  frameWidth.value = Math.round(baseHeight * ratio);
+  frameHeight.value = baseHeight;
+};
+
 onMounted(() => {
   document.addEventListener("click", handlePicClick);
   const windowElement = document.getElementById("flagwindow");
@@ -50,37 +63,32 @@ onMounted(() => {
 
 <template>
   <!-- 
-    外层容器：永远锁死宽度，永远锁死宽高比！
-    aspect-ratio 确保无论怎么缩放，外壳绝对不变形。
+    外层容器：改为动态绑定的 width 和 height
   -->
   <div class="draggable resizable" id="flagwindow"
        :draggable="props.draggable"
-       style="
-         position: absolute; 
-         z-index: 4; 
-         width: 360px; 
-         aspect-ratio: 360 / 225; /* ⭐ 原版比例，严丝合缝！ */
-         background-color: transparent;
-       ">
+       :style="{
+         position: 'absolute', 
+         zIndex: 4, 
+         width: frameWidth + 'px',
+         height: frameHeight + 'px',
+         backgroundColor: 'transparent'
+       }">
     
-    <!-- 
-      底图：填满整个固定外壳，无论怎么缩放都不变形 
-    -->
+    <!-- 底图 -->
     <img src="/template/flag_frame.png" 
          style="
            position: absolute; 
            top: 0; 
            left: 0; 
-           width: 100%; 
+           width: 97%; 
            height: 100%; 
+           left: 8px;
            pointer-events: none; 
            z-index: 1;" 
     />
     
-    <!-- 
-      旗帜层：依靠 Flexbox 在固定外壳的壳子里居中，
-      并且使用 `object-fit: contain` 保持旗帜真实比例不变形。
-    -->
+    <!-- 旗帜层 -->
     <div style="
         position: absolute;
         top: 0;
@@ -90,20 +98,18 @@ onMounted(() => {
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 10px; /* ⭐ 如果发现边框遮住了旗子，调大或调小这里 */
+        padding: 10px; 
         box-sizing: border-box;
         z-index: 0;
       ">
       
       <img id="flagpic" class="pic" 
            src="/preset/GER.png"
-           @update:pic="(newUrl) => { 
-              window.dispatchEvent(new CustomEvent('flagChanged', { detail: newUrl }));
-           }"
+           @load="onFlagImageLoad"
            style="
              width: 100%; 
              height: 100%; 
-             object-fit: contain; /* ⭐ 保持旗帜比例，填满内框！ */
+             object-fit: contain;
            " 
            data-modifiable="true" 
            data-type="flag"

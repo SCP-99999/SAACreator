@@ -1,4 +1,5 @@
 <script setup>
+import { inject } from "vue";
 import { ref, onMounted } from "vue";
 import { mousePosition } from "../../composables/useMousePosition.js";
 import PicManager from "@/components/Controller/PicManager.vue";
@@ -13,6 +14,10 @@ const picManagerType = ref("");
 const picManagerTargetId = ref("");
 const picManagerResizable = ref(false);
 let zIndexCounter = 10;
+
+// ✅ 从 App.vue 接收 AltLeader 数据
+const altLeaderTitle = inject('altLeaderTitle');
+const altLeaderName = inject('altLeaderName');
 
 const playClickSound = () => {
   new Howl({
@@ -89,7 +94,7 @@ onMounted(() => {
            z-index: 1;" 
     />
 
-    <!-- 2. 职位文字 -->
+    <!-- 2. 职位文字（完全依赖侧边栏数据） -->
     <div style="position: absolute; top: 5%; left: 0; width: 100%; text-align: center; z-index: 2;">
       <!-- 底层黑边 -->
       <p class="text" style="
@@ -105,12 +110,10 @@ onMounted(() => {
           margin: 0;
           pointer-events: none;
         ">
-        副总统
+        {{ altLeaderTitle }}
       </p>
-      <!-- 上层白字 -->
-      <p contenteditable="true"
-         @focus="playClickSound"
-         style="
+      <!-- 上层白字（已移除 editable） -->
+      <p style="
           position: relative;
           top: 0;
           left: 0;
@@ -120,14 +123,13 @@ onMounted(() => {
           font-family: Bombard, FZWH;
           font-size: 16px;
           margin: 0;
-          outline: none;
+          pointer-events: none;
         ">
-        副总统
+        {{ altLeaderTitle }}
       </p>
     </div>
 
-    <!-- 3. ✅ 底层背景层（Leader_Background.png 相框底纹） -->
-    <!-- 放在头像层的下面，作为填充 -->
+    <!-- 3. 底层背景层 -->
     <div style="
         position: absolute;
         top: 38px;        
@@ -147,7 +149,7 @@ onMounted(() => {
            " />
     </div>
 
-    <!-- 4. ✅ 独立头像层（盖在背景层之上，支持点击替换） -->
+    <!-- 4. 独立头像层 -->
     <div style="
         position: absolute;
         top: 38px;        
@@ -157,7 +159,7 @@ onMounted(() => {
         z-index: 0;
       ">
       <img id="altleaderpic" class="pic" 
-           src="\public\template\Leader_Background.png"
+           src="/template/Leader_Background.png"
            style="
              width: 100%; 
              height: 100%; 
@@ -169,7 +171,7 @@ onMounted(() => {
            data-target-id="altleaderpic" />
     </div>
 
-    <!-- 5. 姓名文字 -->
+    <!-- 5. 姓名文字（完全依赖侧边栏数据） -->
     <div style="position: absolute; bottom: 8%; left: 0; width: 100%; text-align: center; z-index: 2;">
       <!-- 底层黑边 -->
       <p class="text" style="
@@ -185,12 +187,10 @@ onMounted(() => {
           margin: 0;
           pointer-events: none;
         ">
-        人名
+        {{ altLeaderName }}
       </p>
-      <!-- 上层白字 -->
-      <p contenteditable="true"
-         @focus="playClickSound"
-         style="
+      <!-- 上层白字（已移除 editable） -->
+      <p style="
           position: relative;
           top: 0;
           left: 0;
@@ -200,9 +200,9 @@ onMounted(() => {
           font-family: Bombard, FZWH;
           font-size: 16px;
           margin: 0;
-          outline: none;
+          pointer-events: none;
         ">
-        人名
+        {{ altLeaderName }}
       </p>
     </div>
 

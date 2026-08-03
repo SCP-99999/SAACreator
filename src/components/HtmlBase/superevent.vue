@@ -100,7 +100,7 @@ onMounted(() => {
     <div style="position: absolute; top: 845px; left: 325px; z-index: 5;">
       <button id="superbutton" class="button text" contenteditable="true" style="
           position: relative;
-          width: 359px;
+          width: 340px;
           height: 36px;
           background: url(&quot;/template/spacebar.png&quot;) no-repeat;
           border: none;

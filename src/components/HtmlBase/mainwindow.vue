@@ -1,4 +1,5 @@
 <script setup>
+import { inject } from "vue"; // ✅ 1. 加入 inject
 import Pie from "./piechart.vue";
 import ChartEditor from "../Controller/ChartEditor.vue";
 import { ref, onMounted } from "vue";
@@ -13,9 +14,15 @@ const picManagerType = ref("");
 const picManagerTargetId = ref("");
 const picManagerResizable = ref(false);
 
-const textLinesTop = ref(["大日耳曼国", "团结协定", "国会紧急委员会"]);
-const textLines = ref(["纳粹党", "国家社会主义", "无选举"]);
-const focusText = ref("未知国策");
+// ✅ 2. 删掉这三行用 ref 创建的代码
+// const textLinesTop = ref(...)
+// const textLines = ref(...)
+// const focusText = ref(...)
+
+// ✅ 3. 改为从 App.vue 注入数据！
+const textLinesTop = inject('textLinesTop');
+const textLines = inject('textLines');
+const focusText = inject('focusText');
 
 const updatePicture = ({ id, url, scale }) => {
   const element = document.getElementById(id);
@@ -77,7 +84,7 @@ const handleShow = () => {
     <div>
       <img id="leader-overlay" src="/template/diplo_leader_frame.png" data-modifiable="true" data-type="leader" data-resizable="false" style="position: relative; z-index: 2; top: 0px" data-target-id="leaderpic" />
       
-      <div style="position: absolute; top: 12px; left: 12px; height: 62px; width: 106px; z-index: 0;">
+      <div style="position: absolute; top: 14px; left: 12px; height: 65px; width: 106px; z-index: 0;">
         <img id="flag-overlay" src="/template/flag_overlay.png" data-modifiable="true" data-type="flag" data-resizable="false" data-target-id="flagpic" :style="{ position: 'absolute', top: '0', left: '0', height: 'inherit', width: 'inherit', scale: 1.3, zIndex: 2 }" />
         <img id="master-flag" class="pic" 
              src="/preset/GER.png"
@@ -234,7 +241,7 @@ const handleShow = () => {
         </div>
         
         <!-- 4. 未知国策 -->
-        <div style="position: absolute; width: 260px; display: flex; left: 0; top: 94px; justify-content: center; align-items: center;">
+        <div style="position: absolute; width: 260px; display: flex; left: 0; top: 96px; justify-content: center; align-items: center;">
           <div style="position: relative; width: max-content;">
             <p id="focustext_bg" class="text" style="
                 position: absolute; top: 0; left: 0; width: max-content;

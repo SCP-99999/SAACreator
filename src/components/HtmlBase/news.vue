@@ -46,7 +46,7 @@ onMounted(() => {
   <!-- 
     对齐参考：报纸文字排版优化
   -->
-  <div class="draggable" id="newswindow" style="position: absolute; z-index: 4; scale: 0.85;">
+  <div class="draggable" id="newswindow" style="position: absolute; z-index: 4; scale: 0.82;">
     <img src="/template/news/event_news_bg.png" style="position: relative" />
     
     <!-- 新闻配图层 -->
