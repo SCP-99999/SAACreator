@@ -1,5 +1,5 @@
 <script setup>
-import { inject } from "vue"; // ✅ 1. 加入 inject
+import { inject } from "vue";
 import Pie from "./piechart.vue";
 import ChartEditor from "../Controller/ChartEditor.vue";
 import { ref, onMounted } from "vue";
@@ -14,12 +14,7 @@ const picManagerType = ref("");
 const picManagerTargetId = ref("");
 const picManagerResizable = ref(false);
 
-// ✅ 2. 删掉这三行用 ref 创建的代码
-// const textLinesTop = ref(...)
-// const textLines = ref(...)
-// const focusText = ref(...)
-
-// ✅ 3. 改为从 App.vue 注入数据！
+// ✅ 从 App.vue 注入数据
 const textLinesTop = inject('textLinesTop');
 const textLines = inject('textLines');
 const focusText = inject('focusText');
@@ -121,7 +116,7 @@ const handleShow = () => {
       <img src="/template/pol_piechart_overlay_63x63.png" style="position: absolute; top: 68px; left: 129px; width: 63px; height: 63px; scale: 1.0; z-index: 5;" @click="editorVisible = true" />
 
       <!-- =================================================================== -->
-      <!-- 👑 最终物理免疫版：彻底屏蔽浏览器的穿透选中！                     -->
+      <!-- 👑 完全静止版：侧边栏专用，文字不可点击、不可编辑            -->
       <!-- =================================================================== -->
       
       <!-- 顶部文字：国名、阵营、领导人 -->
@@ -135,19 +130,18 @@ const handleShow = () => {
         ">
         <!-- 1. 国名 -->
         <div style="position: relative; width: max-content; height: 20px;">
-          <!-- 底层：纯透明黑边（绝对不能被点到） -->
+          <!-- 底层：纯透明黑边 -->
           <p class="text" style="
               position: absolute; top: -8px; left: 0; width: max-content;
               color: transparent; -webkit-text-stroke: 3px #000000;
               pointer-events: none; margin: 0; z-index: 0;
             ">{{ textLinesTop[0] }}</p>
-          <!-- 上层：实际点击和显示层，永远盖在最上面！ -->
-          <p id="country" class="text" contenteditable="true" style="
+          <!-- 上层：纯白显示，锁死点击 -->
+          <p id="country" class="text" style="
               position: relative; top: -8px; left: 0; width: max-content;
-              color: #ffffff; margin: 0; outline: none; z-index: 2;
-            "
-            @input="(e) => textLinesTop[0] = e.target.innerText"
-          >{{ textLinesTop[0] }}</p>
+              color: #ffffff; margin: 0; z-index: 2;
+              pointer-events: none;
+            ">{{ textLinesTop[0] }}</p>
         </div>
 
         <!-- 2. 阵营 -->
@@ -157,12 +151,11 @@ const handleShow = () => {
               color: transparent; -webkit-text-stroke: 3px #000000;
               pointer-events: none; margin: 0; z-index: 0;
             ">{{ textLinesTop[1] }}</p>
-          <p id="factiontext" class="text" contenteditable="true" style="
+          <p id="factiontext" class="text" style="
               position: relative; top: -10px; left: 0; width: max-content;
-              color: #ffffff; margin: 0; outline: none; z-index: 2;
-            "
-            @input="(e) => textLinesTop[1] = e.target.innerText"
-          >{{ textLinesTop[1] }}</p>
+              color: #ffffff; margin: 0; z-index: 2;
+              pointer-events: none;
+            ">{{ textLinesTop[1] }}</p>
         </div>
 
         <!-- 3. 领导人 -->
@@ -172,12 +165,11 @@ const handleShow = () => {
               color: transparent; -webkit-text-stroke: 3px #000000;
               pointer-events: none; margin: 0; z-index: 0;
             ">{{ textLinesTop[2] }}</p>
-          <p id="leader" class="text" contenteditable="true" style="
+          <p id="leader" class="text" style="
               position: relative; top: -12px; left: 0; width: max-content;
-              color: #ffffff; margin: 0; outline: none; z-index: 2;
-            "
-            @input="(e) => textLinesTop[2] = e.target.innerText"
-          >{{ textLinesTop[2] }}</p>
+              color: #ffffff; margin: 0; z-index: 2;
+              pointer-events: none;
+            ">{{ textLinesTop[2] }}</p>
         </div>
       </div>
 
@@ -195,46 +187,46 @@ const handleShow = () => {
           
           <!-- 1. 党派 -->
           <div style="position: relative; width: max-content; height: 24px;">
-            <p id="party_bg" class="text" style="
+            <p class="text" style="
                 position: absolute; top: 0; left: 0; width: max-content;
                 color: transparent; -webkit-text-stroke: 3px #000000;
                 pointer-events: none; margin: 0; z-index: 0;
               ">{{ textLines[0] }}</p>
-            <p id="party" class="text" contenteditable="true" style="
+            <p id="party" class="text" style="
                 position: relative; top: 0; left: 0; width: max-content;
-                color: #c6c6c8; margin: 0; outline: none; z-index: 2;
+                color: #c6c6c8; margin: 0; z-index: 2;
+                pointer-events: none;
               "
-              @input="(e) => textLines[0] = e.target.innerText"
             >{{ textLines[0] }}</p>
           </div>
           
           <!-- 2. 意识形态 -->
           <div style="position: relative; width: max-content; height: 24px;">
-            <p id="ideologytext_bg" class="text" style="
+            <p class="text" style="
                 position: absolute; top: 0; left: 0; width: max-content;
                 color: transparent; -webkit-text-stroke: 3px #000000;
                 pointer-events: none; margin: 0; z-index: 0;
               ">{{ textLines[1] }}</p>
-            <p id="ideologytext" class="text" contenteditable="true" style="
+            <p id="ideologytext" class="text" style="
                 position: relative; top: 0; left: 0; width: max-content;
-                color: #c6c6c8; margin: 0; outline: none; z-index: 2;
+                color: #c6c6c8; margin: 0; z-index: 2;
+                pointer-events: none;
               "
-              @input="(e) => textLines[1] = e.target.innerText"
             >{{ textLines[1] }}</p>
           </div>
           
           <!-- 3. 选举 -->
           <div style="position: relative; width: max-content; height: 24px;">
-            <p id="election_bg" class="text" style="
+            <p class="text" style="
                 position: absolute; top: 0; left: 0; width: max-content;
                 color: transparent; -webkit-text-stroke: 3px #000000;
                 pointer-events: none; margin: 0; z-index: 0;
               ">{{ textLines[2] }}</p>
-            <p id="election" class="text" contenteditable="true" style="
+            <p id="election" class="text" style="
                 position: relative; top: 0; left: 0; width: max-content;
-                color: #c6c6c8; margin: 0; outline: none; z-index: 2;
+                color: #c6c6c8; margin: 0; z-index: 2;
+                pointer-events: none;
               "
-              @input="(e) => textLines[2] = e.target.innerText"
             >{{ textLines[2] }}</p>
           </div>
           
@@ -243,16 +235,16 @@ const handleShow = () => {
         <!-- 4. 未知国策 -->
         <div style="position: absolute; width: 260px; display: flex; left: 0; top: 96px; justify-content: center; align-items: center;">
           <div style="position: relative; width: max-content;">
-            <p id="focustext_bg" class="text" style="
+            <p class="text" style="
                 position: absolute; top: 0; left: 0; width: max-content;
                 color: transparent; -webkit-text-stroke: 3px #000000; text-align: center;
                 pointer-events: none; margin: 0; z-index: 0;
               ">{{ focusText }}</p>
-            <p id="focustext" class="text" contenteditable="true" style="
+            <p id="focustext" class="text" style="
                 position: relative; top: 0; left: 0; width: max-content;
-                color: #c6c6c8; text-align: center; margin: 0; outline: none; z-index: 2;
+                color: #c6c6c8; text-align: center; margin: 0; z-index: 2;
+                pointer-events: none;
               "
-              @input="(e) => focusText = e.target.innerText"
             >{{ focusText }}</p>
           </div>
         </div>

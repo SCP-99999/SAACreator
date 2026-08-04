@@ -1,3 +1,18 @@
+# 🚨 项目状态声明 / Project Status
+
+> **⚠️ 注意：本项目目前存在遗留技术问题，尚未完全修复，无法直接正常运行。**
+>
+> **⚠️ NOTE: This project currently has unresolved technical issues and cannot be run correctly at this time.**
+>
+> 具体表现为：在页面中双击富文本进行编辑时，会出现黑边错位、文字高亮黑块等问题。目前正在等待社区大佬/开源大神协助解决。
+>
+> Issue: [待提交修复]
+> 
+> **如果你想体验/使用完整功能，请等待未来的修复更新。**
+> **If you wish to use the full features, please wait for future updates.**
+>
+> ---
+
 # SAA Creator
 
 基于 Vue3 的纯前端应用，数据持久化存储于浏览器 IndexedDB。
@@ -23,7 +38,7 @@
 5. **【可选】** 下载 TNO / 素材数据库（由于项目默认包含的图包较小，如需使用完整预设素材，请下载下方数据包）：
    👉 [下载由 HittyGubby 大佬提供的 TNO 数据库 (解压后约 735.5MB)](http://997779.best/share/TNOdata.zip)
    
-   *注：下载后，请将解压出的 `data` 文件夹放入编译生成的 `dist/data` 目录下。*
+   *注：下载后，请新建一个data文件夹再public目录下，随后将数据包解压进去（原作者写错了！！！）*
 
 6. 配置静态服务器（如 Apache httpd 或 Nginx），将 `dist` 目录作为网站根目录运行即可。
 
