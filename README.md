@@ -1,18 +1,3 @@
-# 🚨 项目状态声明 / Project Status
-
-> **⚠️ 注意：本项目目前存在遗留技术问题，尚未完全修复，无法直接正常运行。**
->
-> **⚠️ NOTE: This project currently has unresolved technical issues and cannot be run correctly at this time.**
->
-> 具体表现为：在页面中双击富文本进行编辑时，会出现黑边错位、文字高亮黑块等问题。目前正在等待社区大佬/开源大神协助解决。
->
-> Issue: [待提交修复]
-> 
-> **如果你想体验/使用完整功能，请等待未来的修复更新。**
-> **If you wish to use the full features, please wait for future updates.**
->
-> ---
-
 # SAA Creator
 
 基于 Vue3 的纯前端应用，数据持久化存储于浏览器 IndexedDB。
@@ -58,7 +43,7 @@
 2. Install dependencies: `npm install`.
 3. Build the project: `npm run build`.
 4. **【Optional】** Download the asset [Database](http://997779.best/share/TNOdata.zip) **(~735.5MB after extraction)**.
-5. Decompress it to the `dist/data` folder.
+5. After downloading, please create a 'data' folder under the 'public' directory, and then unzip the data package into it (the original author wrote it wrong!!!)
 6. Configure your static server (Apache httpd or Nginx) and serve the `dist` directory.
 
 ### Important Notes
