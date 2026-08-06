@@ -14,7 +14,7 @@ const picManagerType = ref("");
 const picManagerTargetId = ref("");
 const picManagerResizable = ref(false);
 
-// ✅ 从 App.vue 注入数据
+// ✅ 注入侧边栏数据
 const textLinesTop = inject('textLinesTop');
 const textLines = inject('textLines');
 const focusText = inject('focusText');
@@ -49,14 +49,13 @@ const handlePicClick = (event) => {
 onMounted(() => {
   document.addEventListener("click", handlePicClick);
 
-  let lastFlagSrc = '/preset/GER.png';
+  // 主旗子与小窗旗子同步
   setInterval(() => {
     const flagWindowImg = document.querySelector('#flagwindow #flagpic');
     const mainFlag = document.getElementById('master-flag');
     if (flagWindowImg && mainFlag) {
       const currentSrc = flagWindowImg.src;
-      if (currentSrc !== lastFlagSrc) {
-        lastFlagSrc = currentSrc;
+      if (mainFlag.src !== currentSrc) {
         mainFlag.src = currentSrc;
       }
     }
@@ -116,7 +115,7 @@ const handleShow = () => {
       <img src="/template/pol_piechart_overlay_63x63.png" style="position: absolute; top: 68px; left: 129px; width: 63px; height: 63px; scale: 1.0; z-index: 5;" @click="editorVisible = true" />
 
       <!-- =================================================================== -->
-      <!-- 👑 完全静止版：侧边栏专用，文字不可点击、不可编辑            -->
+      <!-- 👑 纯显示版：侧边栏专用，文字不可点击、不可编辑            -->
       <!-- =================================================================== -->
       
       <!-- 顶部文字：国名、阵营、领导人 -->
@@ -253,7 +252,6 @@ const handleShow = () => {
     </div>
   </div>
   
-  <!-- 弹窗 -->
   <Dialog v-model:visible="editorVisible" header="饼图编辑"
     :style="{ width: '600px', fontFamily: 'Aldrich, FZRui', opacity: 0.9 }"
     @hide="handleClose" @show="handleShow">
