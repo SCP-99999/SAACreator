@@ -1,9 +1,8 @@
 <script setup>
-import { onMounted, nextTick, ref } from "vue";
+import { onMounted, nextTick, inject } from "vue";
 
 let zIndexCounter = 10;
-// ⭐ 用本地的 ref 接管显示，独立于 App.vue 的注入
-const currentFlag = ref("/preset/GER.png");
+const currentFlag = inject('currentFlag', '/preset/GER.png');
 
 const prioritizeWindow = (event) => {
   const target = event.target.closest(".draggable");
@@ -30,14 +29,6 @@ onMounted(async () => {
   windowElement.addEventListener("mousedown", prioritizeWindow);
   await nextTick();
   setTimeout(adjustContainerSize, 0);
-
-  // ⭐ 核心大招：每隔 200 毫秒去“偷”一次主窗口的旗子
-  setInterval(() => {
-    const masterFlag = document.getElementById('master-flag');
-    if (masterFlag && masterFlag.src !== currentFlag.value) {
-      currentFlag.value = masterFlag.src;
-    }
-  }, 200);
 });
 
 onMounted(() => {
@@ -79,10 +70,12 @@ onMounted(() => {
       white-space: pre-wrap;
       outline: none;
     ">
+      <!-- 第一行：领袖名字 -->
       <span style="color: #cccc00">国会紧急委员会</span><br />
 
+      <!-- 第二行：旗子 + 国名 + 的领导人 -->
       <img :src="currentFlag" style="height: 14px; width: auto; vertical-align: middle; display: inline-block; margin-right: 4px;" />
-      <span style="color: #ffcc00; ">大日耳曼国</span>
+      <span style="color: #ffcc00;">大日耳曼国</span>
       <span style="color: #c6c6c8;">的领导人</span>
       <br />-----------<br />
 
