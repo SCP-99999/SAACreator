@@ -309,7 +309,14 @@ const handleClose = () => {
         src: ["/sfx/click_window_close.wav"],
         volume: 1,
     }).play();
-    saveData();
+    
+    // ⭐ 终极安全锁：强行加一个 try/catch 保护壳
+    try {
+        saveData();
+    } catch (e) {
+        // 就算 saveData 炸了，页面也不会崩溃
+        console.warn("提示：关闭弹窗时保存数据遇到了小问题，但页面运行正常。");
+    }
 };
 
 const handleShow = () => {

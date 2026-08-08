@@ -49,10 +49,11 @@ const handlePicClick = (event) => {
 onMounted(() => {
   document.addEventListener("click", handlePicClick);
 
-  // 主旗子与小窗旗子同步
+  // ⭐ 核心同步逻辑：主旗子与小窗旗子同步
   setInterval(() => {
     const flagWindowImg = document.querySelector('#flagwindow #flagpic');
     const mainFlag = document.getElementById('master-flag');
+    
     if (flagWindowImg && mainFlag) {
       const currentSrc = flagWindowImg.src;
       if (mainFlag.src !== currentSrc) {
@@ -78,7 +79,7 @@ const handleShow = () => {
     <div>
       <img id="leader-overlay" src="/template/diplo_leader_frame.png" data-modifiable="true" data-type="leader" data-resizable="false" style="position: relative; z-index: 2; top: 0px" data-target-id="leaderpic" />
       
-      <div style="position: absolute; top: 14px; left: 12px; height: 65px; width: 106px; z-index: 0;">
+      <div style="position: absolute; top: 12px; left: 12px; height: 65px; width: 106px; z-index: 0;">
         <img id="flag-overlay" src="/template/flag_overlay.png" data-modifiable="true" data-type="flag" data-resizable="false" data-target-id="flagpic" :style="{ position: 'absolute', top: '0', left: '0', height: 'inherit', width: 'inherit', scale: 1.3, zIndex: 2 }" />
         <img id="master-flag" class="pic" 
              src="/preset/GER.png"
@@ -134,13 +135,13 @@ const handleShow = () => {
               position: absolute; top: -8px; left: 0; width: max-content;
               color: transparent; -webkit-text-stroke: 3px #000000;
               pointer-events: none; margin: 0; z-index: 0;
-            ">{{ textLinesTop[0] }}</p>
+            " v-html="textLinesTop[0]"></p>
           <!-- 上层：纯白显示，锁死点击 -->
           <p id="country" class="text" style="
               position: relative; top: -8px; left: 0; width: max-content;
               color: #ffffff; margin: 0; z-index: 2;
               pointer-events: none;
-            ">{{ textLinesTop[0] }}</p>
+            " v-html="textLinesTop[0]"></p>
         </div>
 
         <!-- 2. 阵营 -->
@@ -149,12 +150,12 @@ const handleShow = () => {
               position: absolute; top: -10px; left: 0; width: max-content;
               color: transparent; -webkit-text-stroke: 3px #000000;
               pointer-events: none; margin: 0; z-index: 0;
-            ">{{ textLinesTop[1] }}</p>
+            " v-html="textLinesTop[1]"></p>
           <p id="factiontext" class="text" style="
               position: relative; top: -10px; left: 0; width: max-content;
               color: #ffffff; margin: 0; z-index: 2;
               pointer-events: none;
-            ">{{ textLinesTop[1] }}</p>
+            " v-html="textLinesTop[1]"></p>
         </div>
 
         <!-- 3. 领导人 -->
@@ -163,12 +164,12 @@ const handleShow = () => {
               position: absolute; top: -12px; left: 0; width: max-content;
               color: transparent; -webkit-text-stroke: 3px #000000;
               pointer-events: none; margin: 0; z-index: 0;
-            ">{{ textLinesTop[2] }}</p>
+            " v-html="textLinesTop[2]"></p>
           <p id="leader" class="text" style="
               position: relative; top: -12px; left: 0; width: max-content;
               color: #ffffff; margin: 0; z-index: 2;
               pointer-events: none;
-            ">{{ textLinesTop[2] }}</p>
+            " v-html="textLinesTop[2]"></p>
         </div>
       </div>
 
@@ -190,13 +191,12 @@ const handleShow = () => {
                 position: absolute; top: 0; left: 0; width: max-content;
                 color: transparent; -webkit-text-stroke: 3px #000000;
                 pointer-events: none; margin: 0; z-index: 0;
-              ">{{ textLines[0] }}</p>
+              " v-html="textLines[0]"></p>
             <p id="party" class="text" style="
                 position: relative; top: 0; left: 0; width: max-content;
                 color: #c6c6c8; margin: 0; z-index: 2;
                 pointer-events: none;
-              "
-            >{{ textLines[0] }}</p>
+              " v-html="textLines[0]"></p>
           </div>
           
           <!-- 2. 意识形态 -->
@@ -205,13 +205,12 @@ const handleShow = () => {
                 position: absolute; top: 0; left: 0; width: max-content;
                 color: transparent; -webkit-text-stroke: 3px #000000;
                 pointer-events: none; margin: 0; z-index: 0;
-              ">{{ textLines[1] }}</p>
+              " v-html="textLines[1]"></p>
             <p id="ideologytext" class="text" style="
                 position: relative; top: 0; left: 0; width: max-content;
                 color: #c6c6c8; margin: 0; z-index: 2;
                 pointer-events: none;
-              "
-            >{{ textLines[1] }}</p>
+              " v-html="textLines[1]"></p>
           </div>
           
           <!-- 3. 选举 -->
@@ -220,13 +219,12 @@ const handleShow = () => {
                 position: absolute; top: 0; left: 0; width: max-content;
                 color: transparent; -webkit-text-stroke: 3px #000000;
                 pointer-events: none; margin: 0; z-index: 0;
-              ">{{ textLines[2] }}</p>
+              " v-html="textLines[2]"></p>
             <p id="election" class="text" style="
                 position: relative; top: 0; left: 0; width: max-content;
                 color: #c6c6c8; margin: 0; z-index: 2;
                 pointer-events: none;
-              "
-            >{{ textLines[2] }}</p>
+              " v-html="textLines[2]"></p>
           </div>
           
         </div>
@@ -238,13 +236,12 @@ const handleShow = () => {
                 position: absolute; top: 0; left: 0; width: max-content;
                 color: transparent; -webkit-text-stroke: 3px #000000; text-align: center;
                 pointer-events: none; margin: 0; z-index: 0;
-              ">{{ focusText }}</p>
+              " v-html="focusText"></p>
             <p id="focustext" class="text" style="
                 position: relative; top: 0; left: 0; width: max-content;
                 color: #c6c6c8; text-align: center; margin: 0; z-index: 2;
                 pointer-events: none;
-              "
-            >{{ focusText }}</p>
+              " v-html="focusText"></p>
           </div>
         </div>
       </div>

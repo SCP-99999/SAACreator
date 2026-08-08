@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, inject } from "vue"; // ✅ 引入 inject
 import { mousePosition } from "../../composables/useMousePosition.js";
 
 const picManagerVisible = ref(false);
@@ -8,16 +8,17 @@ const picManagerTargetId = ref("");
 const picManagerResizable = ref(false);
 let zIndexCounter = 10;
 
+// ✅ 注入侧边栏数据，文字全部由这里接管
+const superTitle = inject('superTitle', '德国内战');
+const superMotto = inject('superMotto', '因此，所有人都必须认识到这一点：\n与国家的存在相比，他的自我毫无意义。\n- 阿道夫·希特勒');
+const superButtonText = inject('superButtonText', '风云已起');
+
 const handlePicClick = (event) => {
   const distance = Math.sqrt(
     Math.pow(mousePosition.up.x - mousePosition.down.x, 2) +
     Math.pow(mousePosition.up.y - mousePosition.down.y, 2)
   );
-
-  if (distance > 5) {
-    return;
-  }
-
+  if (distance > 5) return;
   const target = event.target;
   if (target.dataset.modifiable === "true") {
     picManagerType.value = target.dataset.type;
@@ -29,10 +30,7 @@ const handlePicClick = (event) => {
 
 const prioritizeWindow = (event) => {
   const target = event.target.closest(".draggable");
-  if (target) {
-    zIndexCounter++;
-    target.style.zIndex = zIndexCounter;
-  }
+  if (target) { zIndexCounter++; target.style.zIndex = zIndexCounter; }
 };
 
 onMounted(() => {
@@ -65,7 +63,7 @@ onMounted(() => {
     </div>
 
     <!-- ===================================================== -->
-    <!-- ⭐ 标题：单标签 + 2px 四周硬偏移克隆，绝不重影     -->
+    <!-- ⭐ 标题：纯物理叠层黑边，侧边栏控制文字              -->
     <!-- ===================================================== -->
     <div style="
         position: absolute;
@@ -77,28 +75,54 @@ onMounted(() => {
         inline-size: 570px;
         z-index: 5;
       ">
-      <p id="supertitle" class="text" contenteditable="true" style="
+      <!-- 底层黑边 (绝对不被点到) -->
+      <p style="
+          position: absolute;
+          color: transparent;
+          -webkit-text-stroke: 3px #000000;
+          font-family: Aldrich, FZRui;
+          font-size: 32px;
+          text-align: center;
+          margin: 0;
+          pointer-events: none;
+        " v-html="superTitle">
+      </p>
+      <!-- 上层白字 -->
+      <p style="
           position: relative;
           color: #c6c6c8;
           font-family: Aldrich, FZRui;
           font-size: 32px;
           text-align: center;
           margin: 0;
-          text-shadow: 
-            -2px -2px 0 #000000,
-             2px -2px 0 #000000,
-            -2px  2px 0 #000000,
-             2px  2px 0 #000000;
-        ">
-        德国内战
+          pointer-events: none;
+        " v-html="superTitle">
       </p>
     </div>
 
     <!-- ===================================================== -->
-    <!-- ⭐ 按钮：单标签 + 2px 四周硬偏移克隆                -->
+    <!-- ⭐ 按钮：纯物理叠层黑边，侧边栏控制文字              -->
     <!-- ===================================================== -->
     <div style="position: absolute; top: 845px; left: 325px; z-index: 5;">
-      <button id="superbutton" class="button text" contenteditable="true" style="
+      <!-- 底层黑边 -->
+      <div style="
+          position: absolute;
+          width: 340px;
+          height: 36px;
+          background: url(&quot;/template/spacebar.png&quot;) no-repeat;
+          border: none;
+          scale: 1.6;
+          color: transparent;
+          -webkit-text-stroke: 3px #000000;
+          font-family: Bombard, FZWH;
+          font-size: 21px;
+          text-align: center;
+          line-height: 36px;
+          pointer-events: none;
+        " v-html="superButtonText">
+      </div>
+      <!-- 上层白字 -->
+      <div style="
           position: relative;
           width: 340px;
           height: 36px;
@@ -108,21 +132,32 @@ onMounted(() => {
           color: #ffffff;
           font-family: Bombard, FZWH;
           font-size: 21px;
-          text-shadow: 
-            -2px -2px 0 #000000,
-             2px -2px 0 #000000,
-            -2px  2px 0 #000000,
-             2px  2px 0 #000000;
-        ">
-        风云已起
-      </button>
+          text-align: center;
+          line-height: 36px;
+          pointer-events: none;
+        " v-html="superButtonText">
+      </div>
     </div>
 
     <!-- ===================================================== -->
-    <!-- ⭐ 名言：终极单标签大法，无惧任何回车换行！         -->
+    <!-- ⭐ 名言：纯物理叠层黑边，侧边栏控制文字              -->
     <!-- ===================================================== -->
     <div style="position: absolute; left: 70px; top: 555px; z-index: 5;">
-      <p id="supermotto" class="text" contenteditable="true" style="
+      <!-- 底层黑边 -->
+      <p style="
+          position: absolute;
+          width: 900px;
+          text-align: right;
+          color: transparent;
+          -webkit-text-stroke: 3px #000000;
+          font-family: Bombard, FZWH;
+          font-size: 35px;
+          white-space: pre-wrap;
+          pointer-events: none;
+        " v-html="superMotto">
+      </p>
+      <!-- 上层白字 -->
+      <p style="
           position: relative;
           width: 900px;
           text-align: right;
@@ -130,17 +165,9 @@ onMounted(() => {
           font-family: Bombard, FZWH;
           font-size: 35px;
           white-space: pre-wrap;
-          text-shadow: 
-            -2px -2px 0 #000000,
-             2px -2px 0 #000000,
-            -2px  2px 0 #000000,
-             2px  2px 0 #000000;
-        ">
-      因此，所有人都必须认识到这一点：<br />与国家的存在相比，他的自我毫无意义。
-      <br />
-      - 阿道夫·希特勒
-</p>
+          pointer-events: none;
+        " v-html="superMotto">
+      </p>
     </div>
-
   </div>
 </template>

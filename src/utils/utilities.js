@@ -20,9 +20,6 @@ export function Edittext(el) {
   editable.addEventListener("input", () => {
     if (editable.textContent.trim()) {
       el.innerHTML = editable.innerHTML.replace(/<div><br><\/div>/g, "<br/>").replace(/\n/g, "<br/>").replace(/&nbsp;/g, "<br/>").replace(/&lt;/g, "<").replace(/&gt;/g, ">");
-      // el.innerHTML = el.innerHTML.replace('[[country]]', `<span style='color:yellow'>${document.getElementById('country').textContent}</span>`)
-      //   .replace('[[leader]]', `<span style='color:yellow'>${document.getElementById('leader').textContent}</span>`)
-      //   .replace('[[flag]]', `<img src='${document.getElementById('flagpic').src}' style='height: 10px'/>`);
     }
   });
   editable.addEventListener("blur", () => {
@@ -38,11 +35,24 @@ export function Edittext(el) {
 
 export function GetData() {
   const data = {
+    // 原有的 DOM 数据
     textElements: [],
     imageElements: [],
+
+    // 原有的图表/窗口/精神数据
     pieChartData: JSON.parse(JSON.stringify(state.chartData)),
     windows: JSON.parse(JSON.stringify(state.windows)),
-    spiritPictures: JSON.parse(JSON.stringify(state.spiritPictures)), //idb does not recognize vue reactive ref, so stringify and parse to turn to normal object
+    spiritPictures: JSON.parse(JSON.stringify(state.spiritPictures)),
+
+    // ✅ 新增：保存侧边栏修改的所有文本数据！
+    textLinesTop: state.textLinesTop,
+    textLines: state.textLines,
+    focusText: state.focusText,
+    altLeaderTitle: state.altLeaderTitle,
+    altLeaderName: state.altLeaderName,
+    descBodyText: state.descBodyText,
+    leaderName: state.leaderName,
+    spiritTexts: state.spiritTexts,
   };
 
   document.querySelectorAll(":root .text").forEach((element) => {
@@ -64,6 +74,7 @@ export function GetData() {
 }
 
 export function SetData(data) {
+  // 恢复 DOM 内联文本
   if (data.textElements) {
     data.textElements.forEach((item) => {
       const element = document.getElementById(item.id);
@@ -73,6 +84,7 @@ export function SetData(data) {
     });
   }
 
+  // 恢复图片
   if (data.imageElements) {
     data.imageElements.forEach((item) => {
       const element = document.getElementById(item.id);
@@ -83,17 +95,28 @@ export function SetData(data) {
     });
   }
 
-  // Handle pictures data
+  // 恢复精神图片
   if (data.spiritPictures) {
     state.spiritPictures = data.spiritPictures;
   }
 
+  // 恢复图表数据
   if (data.pieChartData) {
     state.chartData = data.pieChartData;
   }
 
+  // 恢复窗口布局
   if (data.windows) {
     state.windows = _.merge({}, state.windows, data.windows);
   }
 
+  // ✅ 新增：恢复侧边栏修改的所有文本数据！
+  if (data.textLinesTop) state.textLinesTop = data.textLinesTop;
+  if (data.textLines) state.textLines = data.textLines;
+  if (data.focusText) state.focusText = data.focusText;
+  if (data.altLeaderTitle) state.altLeaderTitle = data.altLeaderTitle;
+  if (data.altLeaderName) state.altLeaderName = data.altLeaderName;
+  if (data.descBodyText) state.descBodyText = data.descBodyText;
+  if (data.leaderName) state.leaderName = data.leaderName;
+  if (data.spiritTexts) state.spiritTexts = data.spiritTexts;
 }

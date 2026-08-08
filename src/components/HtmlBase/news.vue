@@ -80,7 +80,6 @@ onMounted(() => {
           text-align: center;
           font-family: 'Microsoft YaHei', sans-serif;
           font-size: 20px;
-          font-weight: bold;
           width: 100%;
           outline: none;
         ">

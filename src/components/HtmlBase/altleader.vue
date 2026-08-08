@@ -1,6 +1,5 @@
 <script setup>
-import { inject } from "vue";
-import { ref, onMounted } from "vue";
+import { inject, ref, onMounted } from "vue";
 import { mousePosition } from "../../composables/useMousePosition.js";
 import PicManager from "@/components/Controller/PicManager.vue";
 import { Howl } from "howler";
@@ -15,7 +14,6 @@ const picManagerTargetId = ref("");
 const picManagerResizable = ref(false);
 let zIndexCounter = 10;
 
-// ✅ 从 App.vue 接收 AltLeader 数据
 const altLeaderTitle = inject('altLeaderTitle');
 const altLeaderName = inject('altLeaderName');
 
@@ -52,28 +50,13 @@ const prioritizeWindow = (event) => {
   }
 };
 
-const handleMouseDown = (e) => {
-  const target = e.target.closest(".draggable");
-  if (target) {
-    if (document.activeElement && document.activeElement.contentEditable === "true") {
-      document.activeElement.blur();
-    }
-    prioritizeWindow(e);
-  }
-};
-
 onMounted(() => {
   document.addEventListener("click", handlePicClick);
-  const windowElement = document.getElementById("altleaderwindow");
-  if (windowElement) {
-    windowElement.addEventListener("mousedown", handleMouseDown);
-  }
 });
 </script>
 
 <template>
-  <div class="draggable resizable" id="altleaderwindow"
-       :draggable="props.draggable"
+  <div class="resizable" id="altleaderwindow"
        style="
          position: absolute; 
          z-index: 4; 
@@ -82,7 +65,6 @@ onMounted(() => {
          background-color: transparent;
        ">
     
-    <!-- 1. 外层边框底图 -->
     <img src="/template/altleader_frame.png" 
          style="
            position: absolute; 
@@ -94,9 +76,7 @@ onMounted(() => {
            z-index: 1;" 
     />
 
-    <!-- 2. 职位文字（完全依赖侧边栏数据） -->
     <div style="position: absolute; top: 5%; left: 0; width: 100%; text-align: center; z-index: 2;">
-      <!-- 底层黑边 -->
       <p class="text" style="
           position: absolute;
           top: 0;
@@ -109,10 +89,8 @@ onMounted(() => {
           font-size: 16px;
           margin: 0;
           pointer-events: none;
-        ">
-        {{ altLeaderTitle }}
+        " v-html="altLeaderTitle">
       </p>
-      <!-- 上层白字（已移除 editable） -->
       <p style="
           position: relative;
           top: 0;
@@ -124,12 +102,10 @@ onMounted(() => {
           font-size: 16px;
           margin: 0;
           pointer-events: none;
-        ">
-        {{ altLeaderTitle }}
+        " v-html="altLeaderTitle">
       </p>
     </div>
 
-    <!-- 3. 底层背景层 -->
     <div style="
         position: absolute;
         top: 38px;        
@@ -149,7 +125,6 @@ onMounted(() => {
            " />
     </div>
 
-    <!-- 4. 独立头像层 -->
     <div style="
         position: absolute;
         top: 38px;        
@@ -171,9 +146,7 @@ onMounted(() => {
            data-target-id="altleaderpic" />
     </div>
 
-    <!-- 5. 姓名文字（完全依赖侧边栏数据） -->
     <div style="position: absolute; bottom: 8%; left: 0; width: 100%; text-align: center; z-index: 2;">
-      <!-- 底层黑边 -->
       <p class="text" style="
           position: absolute;
           top: 0;
@@ -186,10 +159,8 @@ onMounted(() => {
           font-size: 16px;
           margin: 0;
           pointer-events: none;
-        ">
-        {{ altLeaderName }}
+        " v-html="altLeaderName">
       </p>
-      <!-- 上层白字（已移除 editable） -->
       <p style="
           position: relative;
           top: 0;
@@ -201,9 +172,31 @@ onMounted(() => {
           font-size: 16px;
           margin: 0;
           pointer-events: none;
-        ">
-        {{ altLeaderName }}
+        " v-html="altLeaderName">
       </p>
+    </div>
+
+    <!-- ⭐ 悬浮拖拽手柄区域（默认透明，鼠标移上去才显示） -->
+    <div v-if="props.draggable"
+         class="drag-handle-area"
+         style="
+           position: absolute;
+           bottom: 0px;
+           left: 0px;
+           width: 30px;
+           height: 30px;
+           cursor: grab;
+           z-index: 10;
+           border-radius: 4px;
+           display: flex;
+           justify-content: center;
+           align-items: center;
+           font-size: 16px;
+           color: #fff;
+           transition: background 0.2s, opacity 0.2s;
+         "
+    >
+
     </div>
 
   </div>

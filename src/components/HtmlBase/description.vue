@@ -2,7 +2,13 @@
 import { onMounted, nextTick, inject } from "vue";
 
 let zIndexCounter = 10;
+
+// ✅ 注入所有数据
 const currentFlag = inject('currentFlag', '/preset/GER.png');
+const textLinesTop = inject('textLinesTop');
+const descBodyText = inject('descBodyText');
+// ✨ 新增：注入外号
+const leaderNickname = inject('leaderNickname', '');
 
 const prioritizeWindow = (event) => {
   const target = event.target.closest(".draggable");
@@ -55,7 +61,7 @@ onMounted(() => {
     <img src="/template/frame.png" 
          style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; display: block; object-fit: fill;">
 
-    <div id="desc" class="text" contenteditable="true" style="
+    <div id="desc" class="text" style="
       position: relative;
       display: inline-block;
       z-index: 1;
@@ -69,18 +75,26 @@ onMounted(() => {
       color: #c2ac89;
       white-space: pre-wrap;
       outline: none;
+      pointer-events: none;
     ">
-      <!-- 第一行：领袖名字 -->
-      <span style="color: #cccc00">国会紧急委员会</span><br />
-
-      <!-- 第二行：旗子 + 国名 + 的领导人 -->
+      <!-- 第一行：领袖名字（黄色，支持 HTML） -->
+      <span style="color: #cccc00" v-html="textLinesTop[2]"></span><br />
+      
+      <!-- 第二行：小旗帜 + 国名（黄色）+ 的领导人（灰色，国名支持 HTML） -->
       <img :src="currentFlag" style="height: 14px; width: auto; vertical-align: middle; display: inline-block; margin-right: 4px;" />
-      <span style="color: #ffcc00;">大日耳曼国</span>
+      <span style="color: #ffcc00;" v-html="textLinesTop[0]"></span>
       <span style="color: #c6c6c8;">的领导人</span>
-      <br />-----------<br />
+      <br />
 
-      <!-- 正文：介绍内容 -->
-      元首已不幸病故，举国震惊。毕竟，谁能想到这位不可战胜之人会这样死去呢？<br /><br />但国会对此早有准备。<br /><br />尽管元首早已点出他的继承者，但政府内部依然各执一词。改革派、保守派、强硬派、狂热派互相撕咬，和平有序进行权力交接的幌子顷刻间烟消云散。斗争的结果是，一群中间派、无名官僚和不受其他派系欢迎的国会议员们联合起来，遵循着三十年来为众人所忽视的宪法，宣布成立过渡行政机关，直至新任元首宣誓就职。<br /><br />元首之位的主要竞争者都对紧急委员会漠不关心，对他们而言，委员会充其量只是群坐冷板凳的家伙；若以冷眼观之，那么他们就是桀骜不驯的叛徒。唯一值得欣慰的是，他们的存在给日耳曼尼亚带来了一丝脆弱的稳定，防止这座城市陷入混乱，如此便可能会有一位更有能力的领导人出来重掌大局，希望如此。他们或许可以保住罗马不在烈火中化为废墟，却无法阻止帝国的其他部分被烈焰所吞噬。
+      <!-- 第三行：外号（黄色，如果为空则整行不渲染，支持 HTML） -->
+      <span v-if="leaderNickname" style="color: #cccc00;" v-html="leaderNickname"></span>
+      <br v-if="leaderNickname" />
+
+      <!-- 第四行：分隔线 -->
+      -----------<br />
+      
+      <!-- 第五行及以后：人物介绍正文（已经使用了 v-html，保持原样） -->
+      <span v-html="descBodyText" style="white-space: pre-wrap;"></span>
     </div>
   </div>
 </template>
