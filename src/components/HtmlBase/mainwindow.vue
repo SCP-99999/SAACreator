@@ -86,7 +86,7 @@ const handleShow = () => {
              style="position: absolute; top: 0; left: 0; height: inherit; width: inherit;" />
       </div>
       
-      <div style="position: absolute; top: 75px; left: 7px; height: 160px; width: 120px; z-index: 1;">
+      <div style="position: absolute; top: 75px; left: 6px; height: 160px; width: 120px; z-index: 1;">
         <img id="leaderpic" class="pic" src="/preset/Portrait_GER_Reichstag_Emergency_Council.png" style="position: absolute; top: 0; left: 0; height: inherit; width: inherit;" />
       </div>
       <div style="position: absolute; top: 79px; left: 7px; height: 160px; width: 120px; z-index: 0;">
@@ -98,19 +98,19 @@ const handleShow = () => {
     <div>
       <img src="/template/diplo_upper_win_bg.png" style="position: absolute; z-index: 2; left: 125px; top: 4px" />
       
-      <div style="position: absolute; top: 42px; left: 177px; z-index: 3; display: flex; justify-content: center; align-items: center;">
+      <div style="position: absolute; top: 40px; left: 177px; z-index: 3; display: flex; justify-content: center; align-items: center;">
         <img id="ideologypic" class="pic" src="/preset/national_socialism_group.png" data-modifiable="true" data-type="ideology" data-resizable="true" data-initial-scale="1" :style="{ position: 'absolute', scale: 1 }" data-target-id="ideologypic" />
       </div>
-      <div style="position: absolute; top: 43px; left: 485px; z-index: 3; display: flex; justify-content: center; align-items: center;">
+      <div style="position: absolute; top: 38px; left: 485px; z-index: 3; display: flex; justify-content: center; align-items: center;">
         <img id="factionpic" class="pic" src="/preset/Leader-Einheitspakt.png" data-modifiable="true" data-type="faction" data-resizable="true" data-initial-scale="0.8" :style="{ position: 'absolute', scale: 0.8 }" data-target-id="factionpic" />
       </div>
       
-      <div style="position: absolute; top: 202px; left: 179px; z-index: 5; display: flex; justify-content: center; align-items: center;">
+      <div style="position: absolute; top: 197px; left: 179px; z-index: 5; display: flex; justify-content: center; align-items: center;">
         <img id="focuspic" class="pic" src="/preset/goal_unknown.png" data-modifiable="true" data-type="focus" data-resizable="true" data-initial-scale="0.9" :style="{ position: 'absolute', scale: 0.9 }" data-target-id="focuspic" />
       </div>
 
       <!-- 饼图 -->
-      <div style="position: absolute; top: 68px; left: 129px; width: 100px; height: 100px; z-index: 1; pointer-events: none;">
+      <div style="position: absolute; top: 64px; left: 128.7px; width: 100px; height: 100px; z-index: 1; pointer-events: none;">
         <Pie class="piechart" style="position: absolute; top: 4px; left: 0px; width: 100px; height: 100px; background: none; scale: 0.6; z-index: 1;" v-model="state.chartData" />
       </div>
       <img src="/template/pol_piechart_overlay_63x63.png" style="position: absolute; top: 68px; left: 129px; width: 63px; height: 63px; scale: 1.0; z-index: 5;" @click="editorVisible = true" />
@@ -124,7 +124,7 @@ const handleShow = () => {
           z-index: 3; 
           position: absolute; 
           left: 215px; 
-          top: 25px; 
+          top: 22px; 
           font-family: Bombard, FZWH; 
           font-size: 14px; 
         ">
@@ -176,7 +176,7 @@ const handleShow = () => {
       <!-- 下部文字：党派、意识形态、选举、未知国策 -->
       <div style="
           position: absolute;
-          top: 95px;
+          top: 90px;
           left: 238px;
           font-family: Aldrich, FZRui;
           font-size: 17px;
@@ -188,12 +188,12 @@ const handleShow = () => {
           <!-- 1. 党派 -->
           <div style="position: relative; width: max-content; height: 24px;">
             <p class="text" style="
-                position: absolute; top: 0; left: 0; width: max-content;
+                position: absolute; top: 2px; left: 0; width: max-content;
                 color: transparent; -webkit-text-stroke: 3px #000000;
                 pointer-events: none; margin: 0; z-index: 0;
               " v-html="textLines[0]"></p>
             <p id="party" class="text" style="
-                position: relative; top: 0; left: 0; width: max-content;
+                position: relative; top: 2px; left: 0; width: max-content;
                 color: #c6c6c8; margin: 0; z-index: 2;
                 pointer-events: none;
               " v-html="textLines[0]"></p>
@@ -216,12 +216,12 @@ const handleShow = () => {
           <!-- 3. 选举 -->
           <div style="position: relative; width: max-content; height: 24px;">
             <p class="text" style="
-                position: absolute; top: 0; left: 0; width: max-content;
+                position: absolute; top: -2px; left: 0; width: max-content;
                 color: transparent; -webkit-text-stroke: 3px #000000;
                 pointer-events: none; margin: 0; z-index: 0;
               " v-html="textLines[2]"></p>
             <p id="election" class="text" style="
-                position: relative; top: 0; left: 0; width: max-content;
+                position: relative; top: -2px; left: 0; width: max-content;
                 color: #c6c6c8; margin: 0; z-index: 2;
                 pointer-events: none;
               " v-html="textLines[2]"></p>
