@@ -105,7 +105,7 @@ const handleShow = () => {
         <img id="factionpic" class="pic" src="/preset/Leader-Einheitspakt.png" data-modifiable="true" data-type="faction" data-resizable="true" data-initial-scale="0.8" :style="{ position: 'absolute', scale: 0.8 }" data-target-id="factionpic" />
       </div>
       
-      <div style="position: absolute; top: 197px; left: 179px; z-index: 5; display: flex; justify-content: center; align-items: center;">
+      <div style="position: absolute; top: 194px; left: 178px; z-index: 5; display: flex; justify-content: center; align-items: center;">
         <img id="focuspic" class="pic" src="/preset/goal_unknown.png" data-modifiable="true" data-type="focus" data-resizable="true" data-initial-scale="0.9" :style="{ position: 'absolute', scale: 0.9 }" data-target-id="focuspic" />
       </div>
 

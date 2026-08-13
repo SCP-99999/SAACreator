@@ -50,7 +50,28 @@ provide('superMotto', superMotto);
 provide('superButtonText', superButtonText);
 
 const sidebarVisible = ref(false);
-const toggleSidebar = () => { sidebarVisible.value = !sidebarVisible.value; };
+let sidebarTimer = null;
+
+const showSidebar = () => {
+  clearTimeout(sidebarTimer);
+  sidebarVisible.value = true;
+};
+
+const hideSidebar = () => {
+  sidebarTimer = setTimeout(() => {
+    sidebarVisible.value = false;
+  }, 300);
+};
+
+// 公告提示
+const showAnnouncement = ref(false);
+
+const showAnnouncementMessage = () => {
+  showAnnouncement.value = true;
+  setTimeout(() => {
+    showAnnouncement.value = false;
+  }, 5000);
+};
 
 // ============================================================
 //  🚀 核心逻辑
@@ -79,6 +100,11 @@ onMounted(() => {
     clearAutoSave();
     location.reload();
   }
+
+  // 延迟显示公告，确保页面加载完成
+  setTimeout(() => {
+    showAnnouncementMessage();
+  }, 1000);
 });
 
 const settingsVisible = ref(false);
@@ -162,33 +188,71 @@ const handleShow = () => { new Howl({ src: ["/sfx/click_window_open.wav"], volum
       <Generic :windows="state.windows" v-model:draggable="draggable" />
     </Dialog>
 
-    <!-- ================================================================ -->
-    <!-- 🆕 侧边栏修改器（字体统一，无任何多余开关） -->
-    <!-- ================================================================ -->
-    <div style="position: fixed; right: 20px; top: 20px; z-index: 99999; display: flex; flex-direction: column; align-items: flex-end; pointer-events: auto;">
-      <button @click="toggleSidebar" style="background: #7caaaa; color: #000; padding: 10px 20px; border-radius: 30px; font-weight: bold; border: 1px solid #5f8a8a; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.5); font-family: 'FZRuiZHJW', 'Aldrich', sans-serif;">
-        🖊️ 编辑文字
-      </button>
+    <!-- 公告提示 -->
+    <Transition name="announcement">
+      <div v-if="showAnnouncement" style="
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 100000;
+        background: rgba(0, 0, 0, 0.85);
+        color: #ffcc00;
+        padding: 15px 25px;
+        border-radius: 8px;
+        border: 1px solid #7caaaa;
+        font-family: 'FZRuiZHJW', 'Aldrich', sans-serif;
+        font-size: 14px;
+        text-align: center;
+        pointer-events: none;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+        animation: fadeInOut 5s ease-in-out;
+      ">
+        将鼠标靠近右侧边缘以显示侧边栏
+      </div>
+    </Transition>
 
-      <div v-show="sidebarVisible" style="
-          margin-top: 12px; 
-          background: rgba(0, 0, 0, 0.92); 
-          padding: 20px; 
-          border-radius: 12px; 
-          border: 1px solid #7caaaa; 
-          width: 380px; 
-          max-height: 85vh;
-          overflow-y: auto;
-          color: #e0e0e0; 
-          box-shadow: 0 8px 25px rgba(0,0,0,0.8);
-          font-family: 'FZRuiZHJW', 'Aldrich', sans-serif;
-        ">
-        <p style="margin-bottom: 15px; font-weight: bold; text-align: center; color: #ffcc00; border-bottom: 1px solid #333; padding-bottom: 10px;">📝 文字同步修改</p>
+    <!-- ================================================================ -->
+    <!-- 侧边栏修改器（字体统一，无任何多余开关） -->
+    <!-- ================================================================ -->
+    <div 
+      style="position: fixed; right: 0; top: 50%; transform: translateY(-50%); z-index: 99999; pointer-events: none;"
+      @mouseenter="showSidebar"
+      @mouseleave="hideSidebar"
+    >
+      <!-- 触发区域 -->
+      <div style="
+        position: absolute; 
+        right: 0; 
+        top: 50%; 
+        transform: translateY(-50%); 
+        width: 10px; 
+        height: 200px; 
+        pointer-events: auto;
+        cursor: pointer;
+      "></div>
 
-        <div style="margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px dashed #333;">
-          <label style="display: block; font-size: 12px; color: #999; margin-bottom: 6px;">📖 人物介绍正文</label>
-          <textarea v-model="descBodyText" style="width: 100%; background: #1a1a1a; border: 1px solid #444; color: #fff; padding: 6px; border-radius: 4px; min-height: 150px; resize: vertical; font-size: 13px; line-height: 1.5; font-family: 'FZRuiZHJW', 'Aldrich', sans-serif;"></textarea>
-        </div>
+      <!-- 侧边栏主体 -->
+      <div 
+        :style="{
+          transform: sidebarVisible ? 'translateX(0)' : 'translateX(100%)',
+          transition: 'transform 0.3s ease',
+          background: 'rgba(0, 0, 0, 0.92)', 
+          padding: '20px', 
+          borderRadius: '12px 0 0 12px', 
+          border: '1px solid #7caaaa', 
+          borderRight: 'none',
+          width: '380px', 
+          maxHeight: '85vh',
+          overflowY: 'auto',
+          color: '#e0e0e0', 
+          boxShadow: '0 8px 25px rgba(0,0,0,0.8)',
+          fontFamily: '\'FZRuiZHJW\', \'Aldrich\', sans-serif',
+          pointerEvents: 'auto',
+          marginLeft: '10px'
+        }"
+      >
+        <p style="margin-bottom: 15px; font-weight: bold; text-align: center; color: #ffcc00; border-bottom: 1px solid #333; padding-bottom: 10px;">文字同步修改</p>
 
         <div style="margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px dashed #333;">
           <div style="margin-bottom: 8px;"><label style="display: block; font-size: 12px; color: #999;">领袖名称</label><input v-model="textLinesTop[2]" style="width: 100%; background: #1a1a1a; border: 1px solid #444; color: #fff; padding: 6px; border-radius: 4px; font-family: 'FZRuiZHJW', 'Aldrich', sans-serif;"></div>
@@ -210,13 +274,14 @@ const handleShow = () => { new Howl({ src: ["/sfx/click_window_open.wav"], volum
         </div>
 
         <div style="margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px dashed #333;">
+          <label style="display: block; font-size: 12px; color: #999; margin-bottom: 6px;">人物介绍正文</label>
+          <textarea v-model="descBodyText" style="width: 100%; background: #1a1a1a; border: 1px solid #444; color: #fff; padding: 6px; border-radius: 4px; min-height: 150px; resize: vertical; font-size: 13px; line-height: 1.5; font-family: 'FZRuiZHJW', 'Aldrich', sans-serif;"></textarea>
+        </div>
+
+        <div style="margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px dashed #333;">
           <div style="margin-bottom: 8px;"><label style="display: block; font-size: 12px; color: #999;">超事件标题</label><input v-model="superTitle" style="width: 100%; background: #1a1a1a; border: 1px solid #444; color: #fff; padding: 6px; border-radius: 4px; font-family: 'FZRuiZHJW', 'Aldrich', sans-serif;"></div>
           <div style="margin-bottom: 8px;"><label style="display: block; font-size: 12px; color: #999;">按钮</label><input v-model="superButtonText" style="width: 100%; background: #1a1a1a; border: 1px solid #444; color: #fff; padding: 6px; border-radius: 4px; font-family: 'FZRuiZHJW', 'Aldrich', sans-serif;"></div>
           <div style="margin-bottom: 8px;"><label style="display: block; font-size: 12px; color: #999;">名言</label><textarea v-model="superMotto" style="width: 100%; background: #1a1a1a; border: 1px solid #444; color: #fff; padding: 6px; border-radius: 4px; min-height: 80px; resize: vertical; font-family: 'FZRuiZHJW', 'Aldrich', sans-serif;"></textarea></div>
-        </div>
-
-        <div style="margin-top: 12px; text-align: right;">
-          <button @click="toggleSidebar" style="background: transparent; border: 1px solid #666; color: #aaa; padding: 4px 12px; border-radius: 4px; cursor: pointer; font-family: 'FZRuiZHJW', 'Aldrich', sans-serif;">关闭</button>
         </div>
       </div>
     </div>
@@ -229,4 +294,34 @@ const handleShow = () => { new Howl({ src: ["/sfx/click_window_open.wav"], volum
 ::-webkit-scrollbar-track { background: #1a1a1a; border-radius: 4px; }
 ::-webkit-scrollbar-thumb { background: #7caaaa; border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: #5f8a8a; }
+
+/* 公告动画 */
+.announcement-enter-active,
+.announcement-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.announcement-enter-from,
+.announcement-leave-to {
+  opacity: 0;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+  }
+  10% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  80% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+  }
+}
 </style>

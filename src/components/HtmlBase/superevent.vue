@@ -142,7 +142,7 @@ onMounted(() => {
     <!-- ===================================================== -->
     <!-- ⭐ 名言：纯物理叠层黑边，侧边栏控制文字              -->
     <!-- ===================================================== -->
-    <div style="position: absolute; left: 70px; top: 555px; z-index: 5;">
+    <div style="position: absolute; left: 60px; top: 557px; z-index: 5;">
       <!-- 底层黑边 -->
       <p style="
           position: absolute;
