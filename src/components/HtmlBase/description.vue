@@ -86,14 +86,17 @@ onMounted(() => {
       <span style="color: #c6c6c8;">的领导人</span>
       <br />
 
-      <!-- 第三行：外号（黄色，如果为空则整行不渲染，支持 HTML） -->
+      <!-- 第三行：空行（如果外号存在） -->
+      <br v-if="leaderNickname" />
+
+      <!-- 第四行：外号（黄色，如果为空则整行不渲染，支持 HTML） -->
       <span v-if="leaderNickname" style="color: #cccc00;" v-html="leaderNickname"></span>
       <br v-if="leaderNickname" />
 
-      <!-- 第四行：分隔线 -->
-      -----------<br />
+      <!-- 第五行：分隔线 -->
+      --------------<br />
       
-      <!-- 第五行及以后：人物介绍正文（已经使用了 v-html，保持原样） -->
+      <!-- 第六行及以后：人物介绍正文（已经使用了 v-html，保持原样） -->
       <span v-html="descBodyText" style="white-space: pre-wrap;"></span>
     </div>
   </div>

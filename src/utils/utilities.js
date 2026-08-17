@@ -39,43 +39,56 @@ export function GetData() {
     textElements: [],
     imageElements: [],
 
-    // 原有的图表/窗口/精神数据
-    pieChartData: JSON.parse(JSON.stringify(state.chartData)),
-    windows: JSON.parse(JSON.stringify(state.windows)),
-    spiritPictures: JSON.parse(JSON.stringify(state.spiritPictures)),
+    // 原有的图表/窗口数据（添加安全检查）
+    pieChartData: state.chartData ? JSON.parse(JSON.stringify(state.chartData)) : null,
+    windows: state.windows ? JSON.parse(JSON.stringify(state.windows)) : null,
+    
+    // 已删除的窗口数据不再保存
+    // spiritPictures: state.spiritPictures ? JSON.parse(JSON.stringify(state.spiritPictures)) : null,
 
-    // ✅ 新增：保存侧边栏修改的所有文本数据！
-    textLinesTop: state.textLinesTop,
-    textLines: state.textLines,
-    focusText: state.focusText,
-    altLeaderTitle: state.altLeaderTitle,
-    altLeaderName: state.altLeaderName,
-    descBodyText: state.descBodyText,
-    leaderName: state.leaderName,
-    spiritTexts: state.spiritTexts,
+    // ✅ 保存侧边栏修改的所有文本数据（添加安全检查）
+    textLinesTop: state.textLinesTop || null,
+    textLines: state.textLines || null,
+    focusText: state.focusText || null,
+    altLeaderTitle: state.altLeaderTitle || null,
+    altLeaderName: state.altLeaderName || null,
+    descBodyText: state.descBodyText || null,
+    leaderName: state.leaderName || null,
+    // spiritTexts: state.spiritTexts || null,
   };
 
+  // 保存文本元素
   document.querySelectorAll(":root .text").forEach((element) => {
-    data.textElements.push({
-      id: element.id,
-      text: element.innerHTML,
-    });
+    if (element && element.id) {
+      data.textElements.push({
+        id: element.id,
+        text: element.innerHTML,
+      });
+    }
   });
 
+  // 保存图片元素
   document.querySelectorAll(":root .pic").forEach((element) => {
-    data.imageElements.push({
-      id: element.id,
-      src: element.src,
-      scale: element.style.scale,
-    });
+    if (element && element.id) {
+      data.imageElements.push({
+        id: element.id,
+        src: element.src,
+        scale: element.style.scale,
+      });
+    }
   });
 
   return data;
 }
 
 export function SetData(data) {
+  if (!data) {
+    console.warn("SetData: 数据为空");
+    return;
+  }
+
   // 恢复 DOM 内联文本
-  if (data.textElements) {
+  if (data.textElements && Array.isArray(data.textElements)) {
     data.textElements.forEach((item) => {
       const element = document.getElementById(item.id);
       if (element) {
@@ -85,7 +98,7 @@ export function SetData(data) {
   }
 
   // 恢复图片
-  if (data.imageElements) {
+  if (data.imageElements && Array.isArray(data.imageElements)) {
     data.imageElements.forEach((item) => {
       const element = document.getElementById(item.id);
       if (element) {
@@ -95,10 +108,10 @@ export function SetData(data) {
     });
   }
 
-  // 恢复精神图片
-  if (data.spiritPictures) {
-    state.spiritPictures = data.spiritPictures;
-  }
+  // 已删除的窗口数据不再恢复
+  // if (data.spiritPictures) {
+  //   state.spiritPictures = data.spiritPictures;
+  // }
 
   // 恢复图表数据
   if (data.pieChartData) {
@@ -107,10 +120,10 @@ export function SetData(data) {
 
   // 恢复窗口布局
   if (data.windows) {
-    state.windows = _.merge({}, state.windows, data.windows);
+    state.windows = _.merge({}, state.windows || {}, data.windows);
   }
 
-  // ✅ 新增：恢复侧边栏修改的所有文本数据！
+  // ✅ 恢复侧边栏修改的所有文本数据
   if (data.textLinesTop) state.textLinesTop = data.textLinesTop;
   if (data.textLines) state.textLines = data.textLines;
   if (data.focusText) state.focusText = data.focusText;
@@ -118,5 +131,5 @@ export function SetData(data) {
   if (data.altLeaderName) state.altLeaderName = data.altLeaderName;
   if (data.descBodyText) state.descBodyText = data.descBodyText;
   if (data.leaderName) state.leaderName = data.leaderName;
-  if (data.spiritTexts) state.spiritTexts = data.spiritTexts;
+  // if (data.spiritTexts) state.spiritTexts = data.spiritTexts;
 }
