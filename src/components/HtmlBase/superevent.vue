@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, inject } from "vue"; // ✅ 引入 inject
+import { ref, onMounted, inject } from "vue";
 import { mousePosition } from "../../composables/useMousePosition.js";
 
 const picManagerVisible = ref(false);
@@ -62,9 +62,7 @@ onMounted(() => {
         style="height: inherit; width: inherit; z-index: 0" />
     </div>
 
-    <!-- ===================================================== -->
-    <!-- ⭐ 标题：纯物理叠层黑边，侧边栏控制文字              -->
-    <!-- ===================================================== -->
+    <!-- 标题：SVG 描边 -->
     <div style="
         position: absolute;
         display: flex;
@@ -75,19 +73,6 @@ onMounted(() => {
         inline-size: 570px;
         z-index: 5;
       ">
-      <!-- 底层黑边 (绝对不被点到) -->
-      <p style="
-          position: absolute;
-          color: transparent;
-          -webkit-text-stroke: 3px #000000;
-          font-family: Aldrich, FZRui;
-          font-size: 32px;
-          text-align: center;
-          margin: 0;
-          pointer-events: none;
-        " v-html="superTitle">
-      </p>
-      <!-- 上层白字 -->
       <p style="
           position: relative;
           color: #c6c6c8;
@@ -96,32 +81,15 @@ onMounted(() => {
           text-align: center;
           margin: 0;
           pointer-events: none;
+          paint-order: stroke;
+          -webkit-text-stroke: 3px #000000;
+          text-stroke: 3px #000000;
         " v-html="superTitle">
       </p>
     </div>
 
-    <!-- ===================================================== -->
-    <!-- ⭐ 按钮：纯物理叠层黑边，侧边栏控制文字              -->
-    <!-- ===================================================== -->
+    <!-- 按钮：SVG 描边 -->
     <div style="position: absolute; top: 845px; left: 325px; z-index: 5;">
-      <!-- 底层黑边 -->
-      <div style="
-          position: absolute;
-          width: 340px;
-          height: 36px;
-          background: url(&quot;/template/spacebar.png&quot;) no-repeat;
-          border: none;
-          scale: 1.6;
-          color: transparent;
-          -webkit-text-stroke: 3px #000000;
-          font-family: Bombard, FZWH;
-          font-size: 21px;
-          text-align: center;
-          line-height: 36px;
-          pointer-events: none;
-        " v-html="superButtonText">
-      </div>
-      <!-- 上层白字 -->
       <div style="
           position: relative;
           width: 340px;
@@ -135,28 +103,15 @@ onMounted(() => {
           text-align: center;
           line-height: 36px;
           pointer-events: none;
+          paint-order: stroke;
+          -webkit-text-stroke: 3px #000000;
+          text-stroke: 3px #000000;
         " v-html="superButtonText">
       </div>
     </div>
 
-    <!-- ===================================================== -->
-    <!-- ⭐ 名言：纯物理叠层黑边，侧边栏控制文字              -->
-    <!-- ===================================================== -->
+    <!-- 名言：SVG 描边 -->
     <div style="position: absolute; left: 60px; top: 557px; z-index: 5;">
-      <!-- 底层黑边 -->
-      <p style="
-          position: absolute;
-          width: 900px;
-          text-align: right;
-          color: transparent;
-          -webkit-text-stroke: 3px #000000;
-          font-family: Bombard, FZWH;
-          font-size: 35px;
-          white-space: pre-wrap;
-          pointer-events: none;
-        " v-html="superMotto">
-      </p>
-      <!-- 上层白字 -->
       <p style="
           position: relative;
           width: 900px;
@@ -166,6 +121,9 @@ onMounted(() => {
           font-size: 35px;
           white-space: pre-wrap;
           pointer-events: none;
+          paint-order: stroke;
+          -webkit-text-stroke: 3px #000000;
+          text-stroke: 3px #000000;
         " v-html="superMotto">
       </p>
     </div>

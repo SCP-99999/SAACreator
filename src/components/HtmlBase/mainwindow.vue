@@ -130,45 +130,37 @@ const handleShow = () => {
         ">
         <!-- 1. 国名 -->
         <div style="position: relative; width: max-content; height: 20px;">
-          <!-- 底层：纯透明黑边 -->
-          <p class="text" style="
-              position: absolute; top: -8px; left: 0; width: max-content;
-              color: transparent; -webkit-text-stroke: 3px #000000;
-              pointer-events: none; margin: 0; z-index: 0;
-            " v-html="textLinesTop[0]"></p>
-          <!-- 上层：纯白显示，锁死点击 -->
           <p id="country" class="text" style="
               position: relative; top: -8px; left: 0; width: max-content;
               color: #ffffff; margin: 0; z-index: 2;
               pointer-events: none;
+              paint-order: stroke;
+              -webkit-text-stroke: 3px #000000;
+              text-stroke: 3px #000000;
             " v-html="textLinesTop[0]"></p>
         </div>
 
         <!-- 2. 阵营 -->
         <div style="position: relative; width: max-content; height: 20px;">
-          <p class="text" style="
-              position: absolute; top: -10px; left: 0; width: max-content;
-              color: transparent; -webkit-text-stroke: 3px #000000;
-              pointer-events: none; margin: 0; z-index: 0;
-            " v-html="textLinesTop[1]"></p>
           <p id="factiontext" class="text" style="
               position: relative; top: -10px; left: 0; width: max-content;
               color: #ffffff; margin: 0; z-index: 2;
               pointer-events: none;
+              paint-order: stroke;
+              -webkit-text-stroke: 3px #000000;
+              text-stroke: 3px #000000;
             " v-html="textLinesTop[1]"></p>
         </div>
 
         <!-- 3. 领导人 -->
         <div style="position: relative; width: max-content; height: 20px;">
-          <p class="text" style="
-              position: absolute; top: -12px; left: 0; width: max-content;
-              color: transparent; -webkit-text-stroke: 3px #000000;
-              pointer-events: none; margin: 0; z-index: 0;
-            " v-html="textLinesTop[2]"></p>
           <p id="leader" class="text" style="
               position: relative; top: -12px; left: 0; width: max-content;
               color: #ffffff; margin: 0; z-index: 2;
               pointer-events: none;
+              paint-order: stroke;
+              -webkit-text-stroke: 3px #000000;
+              text-stroke: 3px #000000;
             " v-html="textLinesTop[2]"></p>
         </div>
       </div>
@@ -187,43 +179,37 @@ const handleShow = () => {
           
           <!-- 1. 党派 -->
           <div style="position: relative; width: max-content; height: 24px;">
-            <p class="text" style="
-                position: absolute; top: 2px; left: 0; width: max-content;
-                color: transparent; -webkit-text-stroke: 3px #000000;
-                pointer-events: none; margin: 0; z-index: 0;
-              " v-html="textLines[0]"></p>
             <p id="party" class="text" style="
                 position: relative; top: 2px; left: 0; width: max-content;
                 color: #c6c6c8; margin: 0; z-index: 2;
                 pointer-events: none;
+                paint-order: stroke;
+                -webkit-text-stroke: 3px #000000;
+                text-stroke: 3px #000000;
               " v-html="textLines[0]"></p>
           </div>
           
           <!-- 2. 意识形态 -->
           <div style="position: relative; width: max-content; height: 24px;">
-            <p class="text" style="
-                position: absolute; top: 0; left: 0; width: max-content;
-                color: transparent; -webkit-text-stroke: 3px #000000;
-                pointer-events: none; margin: 0; z-index: 0;
-              " v-html="textLines[1]"></p>
             <p id="ideologytext" class="text" style="
                 position: relative; top: 0; left: 0; width: max-content;
                 color: #c6c6c8; margin: 0; z-index: 2;
                 pointer-events: none;
+                paint-order: stroke;
+                -webkit-text-stroke: 3px #000000;
+                text-stroke: 3px #000000;
               " v-html="textLines[1]"></p>
           </div>
           
           <!-- 3. 选举 -->
           <div style="position: relative; width: max-content; height: 24px;">
-            <p class="text" style="
-                position: absolute; top: -2px; left: 0; width: max-content;
-                color: transparent; -webkit-text-stroke: 3px #000000;
-                pointer-events: none; margin: 0; z-index: 0;
-              " v-html="textLines[2]"></p>
             <p id="election" class="text" style="
                 position: relative; top: -2px; left: 0; width: max-content;
                 color: #c6c6c8; margin: 0; z-index: 2;
                 pointer-events: none;
+                paint-order: stroke;
+                -webkit-text-stroke: 3px #000000;
+                text-stroke: 3px #000000;
               " v-html="textLines[2]"></p>
           </div>
           
@@ -232,15 +218,13 @@ const handleShow = () => {
         <!-- 4. 未知国策 -->
         <div style="position: absolute; width: 260px; display: flex; left: 0; top: 96px; justify-content: center; align-items: center;">
           <div style="position: relative; width: max-content;">
-            <p class="text" style="
-                position: absolute; top: 0; left: 0; width: max-content;
-                color: transparent; -webkit-text-stroke: 3px #000000; text-align: center;
-                pointer-events: none; margin: 0; z-index: 0;
-              " v-html="focusText"></p>
             <p id="focustext" class="text" style="
                 position: relative; top: 0; left: 0; width: max-content;
                 color: #c6c6c8; text-align: center; margin: 0; z-index: 2;
                 pointer-events: none;
+                paint-order: stroke;
+                -webkit-text-stroke: 3px #000000;
+                text-stroke: 3px #000000;
               " v-html="focusText"></p>
           </div>
         </div>

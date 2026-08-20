@@ -77,27 +77,27 @@ onMounted(() => {
       outline: none;
       pointer-events: none;
     ">
-      <!-- 第一行：领袖名字（黄色，支持 HTML） -->
-      <span style="color: #cccc00" v-html="textLinesTop[2]"></span><br />
+      <!-- 第一行：领袖名字 -->
+      <span style="color: #cccc00; -webkit-text-stroke: 2px #000000; paint-order: stroke fill;" v-html="textLinesTop[2]"></span><br />
       
-      <!-- 第二行：小旗帜 + 国名（黄色）+ 的领导人（灰色，国名支持 HTML） -->
+      <!-- 第二行：旗帜 + 国名 + 的领导人 -->
       <img :src="currentFlag" style="height: 14px; width: auto; vertical-align: middle; display: inline-block; margin-right: 4px;" />
-      <span style="color: #ffcc00;" v-html="textLinesTop[0]"></span>
-      <span style="color: #c6c6c8;">的领导人</span>
+      <span style="color: #ffcc00; -webkit-text-stroke: 2px #000000; paint-order: stroke fill;" v-html="textLinesTop[0]"></span>
+      <span style="color: #c6c6c8; -webkit-text-stroke: 2px #000000; paint-order: stroke fill;">的领导人</span>
       <br />
 
       <!-- 第三行：空行（如果外号存在） -->
       <br v-if="leaderNickname" />
 
-      <!-- 第四行：外号（黄色，如果为空则整行不渲染，支持 HTML） -->
-      <span v-if="leaderNickname" style="color: #cccc00;" v-html="leaderNickname"></span>
+      <!-- 第四行：外号 -->
+      <span v-if="leaderNickname" style="color: #cccc00; -webkit-text-stroke: 2px #000000; paint-order: stroke fill;" v-html="leaderNickname"></span>
       <br v-if="leaderNickname" />
 
       <!-- 第五行：分隔线 -->
-      --------------<br />
+      <span style="color: #c2ac89; -webkit-text-stroke: 2px #000000; paint-order: stroke fill;">--------------</span><br />
       
-      <!-- 第六行及以后：人物介绍正文（已经使用了 v-html，保持原样） -->
-      <span v-html="descBodyText" style="white-space: pre-wrap;"></span>
+      <!-- 第六行及以后：人物介绍正文 -->
+      <span v-html="descBodyText" style="white-space: pre-wrap; color: #c2ac89; -webkit-text-stroke: 1px #000000; paint-order: stroke fill; display: inline-block;"></span>
     </div>
   </div>
 </template>

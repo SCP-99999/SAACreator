@@ -99,20 +99,6 @@ const prioritizeWindow = (event) => {
       />
 
       <div style="position: absolute; top: 5%; left: 0; width: 100%; text-align: center; z-index: 2;">
-        <p class="text" style="
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            text-align: center;
-            color: transparent;
-            -webkit-text-stroke: 3px #000000;
-            font-family: Bombard, FZWH;
-            font-size: 16px;
-            margin: 0;
-            pointer-events: none;
-          " v-html="altLeaderTitle">
-        </p>
         <p style="
             position: relative;
             top: 0;
@@ -124,6 +110,9 @@ const prioritizeWindow = (event) => {
             font-size: 16px;
             margin: 0;
             pointer-events: none;
+            paint-order: stroke;
+            -webkit-text-stroke: 3px #000000;
+            text-stroke: 3px #000000;
           " v-html="altLeaderTitle">
         </p>
       </div>
@@ -171,20 +160,6 @@ const prioritizeWindow = (event) => {
       </div>
 
       <div style="position: absolute; bottom: 8%; left: 0; width: 100%; text-align: center; z-index: 2;">
-        <p class="text" style="
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            text-align: center;
-            color: transparent;
-            -webkit-text-stroke: 3px #000000;
-            font-family: Bombard, FZWH;
-            font-size: 16px;
-            margin: 0;
-            pointer-events: none;
-          " v-html="altLeaderName">
-        </p>
         <p style="
             position: relative;
             top: 0;
@@ -196,6 +171,9 @@ const prioritizeWindow = (event) => {
             font-size: 16px;
             margin: 0;
             pointer-events: none;
+            paint-order: stroke;
+            -webkit-text-stroke: 3px #000000;
+            text-stroke: 3px #000000;
           " v-html="altLeaderName">
         </p>
       </div>
