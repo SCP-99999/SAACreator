@@ -83,7 +83,7 @@ onMounted(() => {
           pointer-events: none;
           paint-order: stroke;
           -webkit-text-stroke: 3px #000000;
-          text-stroke: 3px #000000;
+          text-stroke: 6px #000000;
         " v-html="superTitle">
       </p>
     </div>
@@ -105,7 +105,7 @@ onMounted(() => {
           pointer-events: none;
           paint-order: stroke;
           -webkit-text-stroke: 3px #000000;
-          text-stroke: 3px #000000;
+          text-stroke: 6px #000000;
         " v-html="superButtonText">
       </div>
     </div>
@@ -123,7 +123,7 @@ onMounted(() => {
           pointer-events: none;
           paint-order: stroke;
           -webkit-text-stroke: 3px #000000;
-          text-stroke: 3px #000000;
+          text-stroke: 6px #000000;
         " v-html="superMotto">
       </p>
     </div>

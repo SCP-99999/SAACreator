@@ -4,6 +4,25 @@ import { saveData } from "@/utils/onload.js";
 export const state = reactive({
   // 用于存放主窗口和独立旗帜框共享的图片链接
   globalFlagUrl: null,
+  
+  // ================= 文本数据 =================
+  // 超事件文本
+  superTitle: '德国内战',
+  superMotto: '因此，所有人都必须认识到这一点：\n与国家的存在相比，他的自我毫无意义。\n- 阿道夫·希特勒',
+  superButtonText: '风云已起',
+  
+  // 副领导人文本
+  altLeaderTitle: '副领导人',
+  altLeaderName: '人名',
+  
+  // 侧边栏文本数据
+  textLinesTop: '',
+  textLines: '',
+  focusText: '',
+  descBodyText: '',
+  leaderName: '',
+  // ===========================================
+  
   chartData: {
     labels: [
       "秘传纳粹主义",
@@ -123,7 +142,7 @@ export const state = reactive({
   }
 });
 
-// ✅ 完美合一的防抖监听器（保障“改了立即生效，不需刷新”）
+// ✅ 完美合一的防抖监听器（保障"改了立即生效，不需刷新"）
 let saveTimer = null;
 watch(state, () => {
   clearTimeout(saveTimer);

@@ -55,6 +55,11 @@ export function GetData() {
     descBodyText: state.descBodyText || null,
     leaderName: state.leaderName || null,
     // spiritTexts: state.spiritTexts || null,
+    
+    // ✅ 新增：保存超事件数据
+    superTitle: state.superTitle || null,
+    superMotto: state.superMotto || null,
+    superButtonText: state.superButtonText || null,
   };
 
   // 保存文本元素
@@ -132,4 +137,9 @@ export function SetData(data) {
   if (data.descBodyText) state.descBodyText = data.descBodyText;
   if (data.leaderName) state.leaderName = data.leaderName;
   // if (data.spiritTexts) state.spiritTexts = data.spiritTexts;
+
+  // ✅ 新增：恢复超事件数据
+  if (data.superTitle) state.superTitle = data.superTitle;
+  if (data.superMotto) state.superMotto = data.superMotto;
+  if (data.superButtonText) state.superButtonText = data.superButtonText;
 }
