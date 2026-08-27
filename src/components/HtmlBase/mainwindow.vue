@@ -79,7 +79,7 @@ const handleShow = () => {
     <div>
       <img id="leader-overlay" src="/template/diplo_leader_frame.png" data-modifiable="true" data-type="leader" data-resizable="false" style="position: relative; z-index: 2; top: 0px" data-target-id="leaderpic" />
       
-      <div style="position: absolute; top: 12px; left: 12px; height: 65px; width: 106px; z-index: 0;">
+      <div style="position: absolute; top: 13px; left: 15px; height: 64px; width: 103px; z-index: 0;">
         <img id="flag-overlay" src="/template/flag_overlay.png" data-modifiable="true" data-type="flag" data-resizable="false" data-target-id="flagpic" :style="{ position: 'absolute', top: '0', left: '0', height: 'inherit', width: 'inherit', scale: 1.3, zIndex: 2 }" />
         <img id="master-flag" class="pic" 
              src="/preset/GER.png"
@@ -101,7 +101,7 @@ const handleShow = () => {
       <div style="position: absolute; top: 40px; left: 177px; z-index: 3; display: flex; justify-content: center; align-items: center;">
         <img id="ideologypic" class="pic" src="/preset/national_socialism_group.png" data-modifiable="true" data-type="ideology" data-resizable="true" data-initial-scale="1" :style="{ position: 'absolute', scale: 1 }" data-target-id="ideologypic" />
       </div>
-      <div style="position: absolute; top: 38px; left: 485px; z-index: 3; display: flex; justify-content: center; align-items: center;">
+      <div style="position: absolute; top: 39px; left: 475px; z-index: 3; display: flex; justify-content: center; align-items: center;">
         <img id="factionpic" class="pic" src="/preset/Leader-Einheitspakt.png" data-modifiable="true" data-type="faction" data-resizable="true" data-initial-scale="0.8" :style="{ position: 'absolute', scale: 0.8 }" data-target-id="factionpic" />
       </div>
       
