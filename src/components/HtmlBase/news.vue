@@ -57,10 +57,10 @@ onMounted(() => {
       <img id="newspic" class="pic" src="/preset/GER_german_civil_war.png"
         style="
           position: absolute;
-          top: 135px;
+          top: 160px;
           left: 15px;
           width: 145px;
-          height: 420px;
+          height: 400px;
         " 
         data-modifiable="true" 
         data-type="news"
@@ -74,7 +74,7 @@ onMounted(() => {
           position: absolute;
           display: flex;
           left: 40px;
-          top: 116px;
+          top: 150px;
           justify-content: center;
           align-items: center;
           inline-size: 400px;
@@ -84,7 +84,7 @@ onMounted(() => {
             color: #000000;
             text-align: center;
             font-family: 'Microsoft YaHei', sans-serif;
-            font-size: 17px;
+            font-size: 20px;
             width: 100%;
             outline: none;
           ">
@@ -98,7 +98,7 @@ onMounted(() => {
           font-family: 'Microsoft YaHei', sans-serif;
           position: absolute;
           left: 170px;
-          top: 130px;
+          top: 170px;
           color: #000000;
           inline-size: 265px;
           text-align: left;
@@ -113,7 +113,7 @@ onMounted(() => {
       <button id="newsbutton" class="button text" contenteditable="true" style="
           position: absolute;
           top: 500px;
-          left: 123px;
+          left: 125px;
           transition: 0.2s;
           background: url(&quot;/template/news/event_option_entry.png&quot;) no-repeat;
           border: none;
