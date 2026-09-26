@@ -44,9 +44,9 @@ onMounted(() => {
   <div class="draggable" id="superwindow" style="
       position: absolute;
       z-index: 4;
-      scale: 0.55;
-      left: -235px;
-      top: -200px;
+      scale: 0.65;
+      left: -170px;
+      top: -160px;
     ">
     <img src="/template/super_frame.png" style="position: relative; z-index: 1" data-modifiable="true" data-type="super"
       data-resizable="false" data-target-id="superpic" />

@@ -66,11 +66,11 @@ onMounted(() => {
       display: inline-block;
       z-index: 1;
       font-family: Aldrich, FZRui;
-      font-size: 13px;
-      line-height: 16px;
+      font-size: 14.6px;
+      line-height: 18px;
       background-color: transparent;
-      width: 305px;
-      padding: 12px 15px; 
+      width: 360px;
+      padding: 12px 18px; 
       min-height: min-content;
       color: #c2ac89;
       white-space: pre-wrap;
