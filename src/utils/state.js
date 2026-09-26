@@ -88,7 +88,7 @@ export const state = reactive({
     news: {
       name: "新闻",
       x: -37,
-      y: 189,
+      y: 200,
       w: 1,
       h: 1,
       zIndex: 2,
@@ -97,8 +97,8 @@ export const state = reactive({
     },
     superevent: {
       name: "超事件",
-      x: 475,
-      y: 240,
+      x: 410,
+      y: 250,
       w: 1,
       h: 1,
       zIndex: 1,
