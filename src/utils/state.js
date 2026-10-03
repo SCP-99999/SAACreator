@@ -2,151 +2,115 @@ import { reactive, watch } from 'vue';
 import { saveData } from "@/utils/onload.js";
 
 export const state = reactive({
-  // 用于存放主窗口和独立旗帜框共享的图片链接
-  globalFlagUrl: null,
-  
-  // ================= 文本数据 =================
-  // 超事件文本
-  superTitle: '德国内战',
-  superMotto: '因此，所有人都必须认识到这一点：\n与国家的存在相比，他的自我毫无意义。\n- 阿道夫·希特勒',
-  superButtonText: '风云已起',
-  
-  // 副领导人文本
-  altLeaderTitle: '副领导人',
-  altLeaderName: '人名',
-  
-  // 侧边栏文本数据
-  textLinesTop: '',
-  textLines: '',
-  focusText: '',
-  descBodyText: '',
-  leaderName: '',
-  // ===========================================
-  
+  // ============================================================
+  //  1. 饼图数据
+  // ============================================================
   chartData: {
     labels: [
-      "秘传纳粹主义",
-      "极端民族主义",
-      "国家社会主义",
-      "法西斯主义",
-      "专制主义",
-      "家长制民主",
-      "保守主义",
-      "自由保守主义",
-      "自由主义",
-      "进步主义",
-      "社会主义",
-      "共产主义",
+      "秘传纳粹主义", "极端民族主义", "国家社会主义", "法西斯主义",
+      "专制主义", "家长制民主", "保守主义", "自由保守主义",
+      "自由主义", "进步主义", "社会主义", "共产主义"
     ],
-    datasets: [
-      {
-        data: [0, 5.6, 30.6, 41.7, 11.1, 8.3, 2.1, 0, 0, 2, 1.4, 0],
-        backgroundColor: [
-          "#341950",
-          "#232323",
-          "#503200",
-          "#843200",
-          "#4b4b4b",
-          "#828282",
-          "#000087",
-          "#273195",
-          "#4e61a3",
-          "#a91b4f",
-          "#9b0000",
-          "#6e0000",
-        ],
-        borderWidth: 0,
-        spacing: 0,
-      },
-    ],
-    options: {
-      rotation: 90,
-    },
+    datasets: [{
+      data: [0, 5.6, 30.6, 41.7, 11.1, 8.3, 2.1, 0, 0, 2, 1.4, 0],
+      backgroundColor: [
+        "#341950", "#232323", "#503200", "#843200",
+        "#4b4b4b", "#828282", "#000087", "#273195",
+        "#4e61a3", "#a91b4f", "#9b0000", "#6e0000"
+      ],
+      borderWidth: 0,
+      spacing: 0,
+    }],
+    options: { rotation: 90 },
   },
-  
+
+  // ============================================================
+  //  2. 国家精神（图标 + 右侧文字）
+  // ============================================================
+  spiritPictures: [
+    { id: 1, url: "/preset/Reich_GER_idea_GER_endsieg_old.png", filename: "Reich_GER_idea_GER_endsieg_old", scale: 1.0 },
+    { id: 2, url: "/preset/Reich_GER_idea_GER_gone_over.png", filename: "Reich_GER_idea_GER_gone_over", scale: 1.0 },
+    { id: 3, url: "/preset/Reich_GER_idea_GER_the_two_principles.png", filename: "Reich_GER_idea_GER_the_two_principles", scale: 1.0 },
+    { id: 4, url: "/preset/Reich_GER_idea_GER_to_banish_want.png", filename: "Reich_GER_idea_GER_to_banish_want", scale: 1.0 },
+  ],
+  spiritTexts: ["1. 军阀割据", "2. 柏林之战", "3. 分崩离析的国家"],
+
+  // ✅ 国家精神文字区域的位置和大小
+  spiritTextsPos: { x: 330, y: -132, w: 150, h: 72 },
+  // ✅ 是否固定（true = 不可拖动缩放）
+  spiritTextsLocked: false,
+
+  // ============================================================
+  //  3. 领袖数据
+  // ============================================================
+  leaderName: "国会紧急委员会",
+
+  // ============================================================
+  //  4. 经济数据
+  // ============================================================
+  economy: {
+    text: "纳粹法团经济",
+    iconUrl: "/preset/Gelenkte_Wirtschaft.png"
+  },
+
+  // ============================================================
+  //  5. 新闻报纸数据
+  // ============================================================
+  newsTitle: "德国内战",
+  newsBody: "在阿道夫·希特勒去世后，德国旋即陷入混乱。尽管元首指定了合法的继任者，但德国国内的强大派系已经开始拿起武器，互相对抗，打算将国家引导向自己的期望。国家已被分裂，整支整支的驻军无视来自日耳曼尼亚的命令，并倒向他们选择的继任者。虽然局势的严重程度尚不清楚，但据估计，德国要么正在面临要么已经经历了中央权威的彻底崩溃。\n\n虽然还不大清楚德国东部领地的命运将会如何，但日耳曼尼亚与她的殖民领之间突然断绝了联系，这已经引发了这些地区是否也会自行寻找出路的猜测。然而，有一点毫无疑问，这个欧洲巨人的崩溃已经使整个欧陆陷入分崩离析之中。",
+  newsOptionText: "帝国的终结。",
+
+  // ============================================================
+  //  6. 大选数据
+  // ============================================================
+  electionText: "无选举",
+
+  // ============================================================
+  //  7. 事件窗口文字
+  // ============================================================
+  eventTitle: "内战打响！",
+  eventBody: "多年以来，虽然国内各派系之间的紧张局势一直在加剧，但谁都没有想到，元首尸骨未寒，暴力冲突就爆发了。当然，人人都能看见，政客们躲回了自己的老巢，军队分发了装备并封锁了道路，警察则拿起了他们手头上最强大的武器，用路障封锁了他们的警察局，但谁能想到，将要降临的是一场彻底的内战呢？\n\n然而，不管人们想没想到，战争就这样发生了。部队在日耳曼尼亚倾注了全部注意力，确保首都处于军方的控制之下，不过在其他地方，追求着德意志祖国无上权柄的觊觎者们已经武装起来，战斗一触即发。施佩尔、海德里希、鲍曼、戈林，没有人知道谁会获得最终胜利，不过这个国家的所有民众都知道，他们未来的日子一片黑暗。\n\n德国正在崩溃，城市街头陷入无政府状态，饕餮列强们争论着如何行动。英国和日本都在寻找从这场混乱中渔利的最佳时机，伊比利亚与意大利迅速开始军事化，趁着这混乱将自身的彩响力撒播出去。表面上对祖国忠心耿耿的专员辖区们也陷入了争吵，领导人们争论着该支持谁，或者是否是时候乘机开始将自己的领地与故乡拉开距离、划清界线。",
+  eventButtonText: "血色将至。",
+
+  // ============================================================
+  //  8. 旗帜框数据
+  // ============================================================
+  // ✅ 原图（mainwindow 的 master-flag 用）
+  flagImageSrc: "/preset/GER.png",
+  // ✅ 裁剪后的图（Flag.vue 的 flagpic 用）
+  flagImageSrcCropped: "/preset/GER.png",
+  // ✅ 旗帜裁剪参数（偏移 + 缩放）
+  flagCrop: { offsetX: 0, offsetY: 0, scale: 1 },
+
+  // ============================================================
+  //  9. 全局弹窗控制变量（供 PicManager 使用）
+  // ============================================================
+  picManagerVisible: false,
+  picManagerType: "",
+  picManagerTargetId: "",
+  picManagerResizable: false,
+
+  // ============================================================
+  //  10. 窗口布局
+  // ============================================================
   windows: {
-    main: {
-      name: "主窗口",
-      x: 0,
-      y: 0,
-      w: 1,
-      h: 1,
-      zIndex: 1,
-      visible: true,
-      active: false,
-    },
-    description: {
-      name: "人物介绍",
-      x: 6,
-      y: 250,
-      w: 320,
-      h: 400,
-      zIndex: 1,
-      visible: true,
-      active: false,
-    },
-    news: {
-      name: "新闻",
-      x: -37,
-      y: 200,
-      w: 1,
-      h: 1,
-      zIndex: 2,
-      visible: false,
-      active: false,
-    },
-    superevent: {
-      name: "超事件",
-      x: 410,
-      y: 250,
-      w: 1,
-      h: 1,
-      zIndex: 1,
-      visible: true,
-      active: false,
-    },
-    event: {
-      name: "事件",
-      x: 1410,
-      y: 0,
-      w: 1,
-      h: 1,
-      zIndex: 1,
-      visible: false,
-      active: false,
-    },
+    main: { name: "主窗口", x: 0, y: 0, w: 1, h: 1, zIndex: 1, visible: true, active: false },
+    description: { name: "人物介绍", x: 10, y: 250, w: 310, h: 400, zIndex: 1, visible: true, active: false },
+    news: { name: "新闻", x: -37, y: 189, w: 1, h: 1, zIndex: 2, visible: false, active: false },
+    superevent: { name: "超事件", x: 300, y: 240, w: 1, h: 1, zIndex: 1, visible: true, active: false },
+    event: { name: "事件", x: 150, y: 10, w: 1, h: 1, zIndex: 5, visible: false, active: false },
     flag: {
       name: "旗帜框",
-      x: 700,      // 初始 X 坐标，出来后在屏幕中间偏右
-      y: 0,      // 初始 Y 坐标
-      w: 290,      // 底图初始宽度 (估计值，可以微调)
-      h: 150,      // 底图初始高度
-      minW: 150,    // 👈 锁死最小宽度，防止缩成一条线
-      maxW: 600,    // 👈 锁死最大宽度，防止撑破屏幕
-      minH: 100,    // 👈 锁死最小高度
-      maxH: 400,    // 👈 锁死最大高度
-      zIndex: 1,
-      visible: true,
-      active: false,
+      x: 750, y: 10, w: 0, h: 0,
+      zIndex: 1, visible: true, active: false,
     },
     altLeader: {
       name: "副领导人",
-      x: 540,      // 初始横向位置
-      y: 0,       // 初始纵向位置
-      w: 200,       // 初始宽度
-      h: 280,       // 初始高度
-      zIndex: 1,
-      visible: true,
-      active: false,
+      x: 540, y: 0, w: 200, h: 280,
+      zIndex: 1, visible: true, active: false,
     },
   }
 });
 
-// ✅ 完美合一的防抖监听器（保障"改了立即生效，不需刷新"）
-let saveTimer = null;
-watch(state, () => {
-  clearTimeout(saveTimer);
-  saveTimer = setTimeout(() => {
-    saveData();
-  }, 500); 
-}, { deep: true });
+// 深度监听，自动保存一切改动
+watch(state, () => { saveData(); }, { deep: true });

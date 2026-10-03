@@ -1,43 +1,9 @@
 <script setup>
-import { ref, onMounted, inject } from "vue";
-import { mousePosition } from "../../composables/useMousePosition.js";
+import { inject } from "vue";
 
-const picManagerVisible = ref(false);
-const picManagerType = ref("");
-const picManagerTargetId = ref("");
-const picManagerResizable = ref(false);
-let zIndexCounter = 10;
-
-// ✅ 注入侧边栏数据，文字全部由这里接管
 const superTitle = inject('superTitle', '德国内战');
 const superMotto = inject('superMotto', '因此，所有人都必须认识到这一点：\n与国家的存在相比，他的自我毫无意义。\n- 阿道夫·希特勒');
 const superButtonText = inject('superButtonText', '风云已起');
-
-const handlePicClick = (event) => {
-  const distance = Math.sqrt(
-    Math.pow(mousePosition.up.x - mousePosition.down.x, 2) +
-    Math.pow(mousePosition.up.y - mousePosition.down.y, 2)
-  );
-  if (distance > 5) return;
-  const target = event.target;
-  if (target.dataset.modifiable === "true") {
-    picManagerType.value = target.dataset.type;
-    picManagerTargetId.value = target.dataset.targetId;
-    picManagerResizable.value = target.dataset.resizable === "true";
-    picManagerVisible.value = true;
-  }
-};
-
-const prioritizeWindow = (event) => {
-  const target = event.target.closest(".draggable");
-  if (target) { zIndexCounter++; target.style.zIndex = zIndexCounter; }
-};
-
-onMounted(() => {
-  document.addEventListener("click", handlePicClick);
-  const windowElement = document.getElementById("superwindow");
-  windowElement.addEventListener("mousedown", prioritizeWindow);
-});
 </script>
 
 <template>
@@ -45,8 +11,8 @@ onMounted(() => {
       position: absolute;
       z-index: 4;
       scale: 0.65;
-      left: -170px;
-      top: -160px;
+      left: -70px;
+      top: -150px;
     ">
     <img src="/template/super_frame.png" style="position: relative; z-index: 1" data-modifiable="true" data-type="super"
       data-resizable="false" data-target-id="superpic" />
@@ -62,7 +28,6 @@ onMounted(() => {
         style="height: inherit; width: inherit; z-index: 0" />
     </div>
 
-    <!-- 标题：SVG 描边 -->
     <div style="
         position: absolute;
         display: flex;
@@ -88,7 +53,6 @@ onMounted(() => {
       </p>
     </div>
 
-    <!-- 按钮：SVG 描边 -->
     <div style="position: absolute; top: 845px; left: 325px; z-index: 5;">
       <div style="
           position: relative;
@@ -110,7 +74,6 @@ onMounted(() => {
       </div>
     </div>
 
-    <!-- 名言：SVG 描边 -->
     <div style="position: absolute; left: 60px; top: 557px; z-index: 5;">
       <p style="
           position: relative;

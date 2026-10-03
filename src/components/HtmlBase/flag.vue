@@ -1,98 +1,109 @@
 <script setup>
-import { ref, onMounted } from "vue";
-import { mousePosition } from "../../composables/useMousePosition.js";
+import { ref } from "vue";
+import { state } from "@/utils/state.js";
 
 const props = defineProps({
   draggable: Boolean
 });
 
-const picManagerVisible = ref(false);
-const picManagerType = ref("");
-const picManagerTargetId = ref("");
-const picManagerResizable = ref(false);
-let zIndexCounter = 10;
+// ✅ 旗帜框缩放比例
+const flagScale = 0.69;
 
-const frameWidth = ref(360);
-const frameHeight = ref(225);
+const isDragging = ref(false);
+const dragStart = ref({ x: 0, y: 0, ox: 0, oy: 0 });
+const mousedownPos = ref({ x: 0, y: 0 });
 
-const handlePicClick = (event) => {
-  const distance = Math.sqrt(
-    Math.pow(mousePosition.up.x - mousePosition.down.x, 2) +
-    Math.pow(mousePosition.up.y - mousePosition.down.y, 2)
-  );
-  if (distance > 5) return;
-  const target = event.target;
-  if (target.dataset.modifiable === "true") {
-    picManagerType.value = target.dataset.type;
-    picManagerTargetId.value = target.dataset.targetId;
-    picManagerResizable.value = target.dataset.resizable === "true";
-    picManagerVisible.value = true;
+const handleMouseDown = (e) => {
+  mousedownPos.value = { x: e.clientX, y: e.clientY };
+
+  // 只有 draggable 开启时才能拖动
+  if (!props.draggable) {
+    document.addEventListener("mouseup", handleMouseUp);
+    return;
+  }
+
+  isDragging.value = true;
+  dragStart.value = {
+    x: e.clientX,
+    y: e.clientY,
+    ox: state.windows.flag.x,
+    oy: state.windows.flag.y,
+  };
+  document.addEventListener("mousemove", handleMouseMove);
+  document.addEventListener("mouseup", handleMouseUp);
+};
+
+const handleMouseMove = (e) => {
+  if (!isDragging.value) return;
+  const dx = e.clientX - dragStart.value.x;
+  const dy = e.clientY - dragStart.value.y;
+  state.windows.flag.x = dragStart.value.ox + dx;
+  state.windows.flag.y = dragStart.value.oy + dy;
+};
+
+const handleMouseUp = (e) => {
+  isDragging.value = false;
+  document.removeEventListener("mousemove", handleMouseMove);
+  document.removeEventListener("mouseup", handleMouseUp);
+
+  const dx = e.clientX - mousedownPos.value.x;
+  const dy = e.clientY - mousedownPos.value.y;
+  const distance = Math.sqrt(dx * dx + dy * dy);
+
+  if (distance <= 5) {
+    state.picManagerType = "flag";
+    state.picManagerTargetId = "flagpic";
+    state.picManagerResizable = false;
+    state.picManagerVisible = true;
   }
 };
-
-const onFlagImageLoad = (e) => {
-  const img = e.target;
-  const ratio = img.naturalWidth / img.naturalHeight;
-  const baseHeight = 225;
-  frameWidth.value = Math.round(baseHeight * ratio);
-  frameHeight.value = baseHeight;
-};
-
-onMounted(() => {
-  document.addEventListener("click", handlePicClick);
-});
 </script>
 
 <template>
-  <div class="resizable" id="flagwindow"
-       :style="{
-         position: 'absolute', 
-         zIndex: 4, 
-         width: frameWidth + 'px',
-         height: frameHeight + 'px',
-         backgroundColor: 'transparent'
-       }"
+  <div 
+    class="resizable" 
+    id="flagwindow"
+    :style="{
+      position: 'absolute',
+      zIndex: state.windows.flag.zIndex,
+      left: state.windows.flag.x + 'px',
+      top: state.windows.flag.y + 'px',
+      background: 'transparent',
+      display: 'inline-block',
+      transform: `scale(${flagScale})`,
+      transformOrigin: 'top left',
+      userSelect: 'none',
+    }"
+    @mousedown="handleMouseDown"
   >
     <img src="/template/flag_frame.png" 
-         style="
-           position: absolute; 
-           top: 0; 
-           left: 7px; 
-           width: 97%; 
-           height: 100%; 
-           pointer-events: none; 
-           z-index: 1;
-         " 
+         style="display: block; position: relative; z-index: 1; pointer-events: none;" 
     />
     
     <div style="
         position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 10px; 
-        box-sizing: border-box;
+        top: 15px;
+        left: 12px;
+        right: 10px;
+        bottom: 10px;
+        overflow: hidden;
         z-index: 0;
+        pointer-events: none;
       "
     >
       <img id="flagpic" class="pic" 
-           src="/preset/GER.png"
-           @load="onFlagImageLoad"
+           :src="state.flagImageSrcCropped"
            style="
-             width: 100%; 
-             height: 100%; 
-             object-fit: contain;
-           " 
+             position: absolute;
+             width: 475px;
+             height: 310px;
+             objectFit: cover;
+           "
            data-modifiable="true" 
            data-type="flag"
            data-resizable="false" 
            data-target-id="flagpic" 
       />
     </div>
-
   </div>
 </template>
