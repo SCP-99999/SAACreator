@@ -47,13 +47,13 @@ onMounted(() => {
         <img src="/template/news/event_report_top_win.png" style="position: relative; display: block;" />
 
         <img v-for="index in tileIndices" :key="index" src="/template/news/event_report_tileable_midsection.png"
-            style="position: relative; display: block; width: 100%;" />
+            style="position: relative; display: block; width: 579.5px" />
 
-        <img src="/template/news/event_report_bottom_win.png" style="position: relative; display: block;" />
+        <img src="/template/news/event_report_bottom_win.png" style="position: relative; display: block;width: 588.5px" />
 
         <div :style="{
             position: 'absolute',
-            top: `${295 + tileCount * tileHeight}px`,
+            top: `${300 + tileCount * tileHeight}px`,
             left: '97px',
             zIndex: 3,
             display: 'flex',
@@ -67,8 +67,8 @@ onMounted(() => {
 
         <button id="eventbutton" class="button text" :style="{
             position: 'absolute',
-            top: `${318 + tileCount * tileHeight}px`,
-            left: '218px',
+            top: `${240 + tileCount * tileHeight}px`,
+            left: '215px',
             transition: '0.2s',
             scale: '1.03',
             background: 'url(/template/news/event_event_option_entry.png) no-repeat', border: 'none', width: '355px',
@@ -80,7 +80,7 @@ onMounted(() => {
         <div style="
           position: absolute;
           display: flex;
-          left: 40px;
+          left: 60px;
           top: 210px;
           justify-content: center;
           align-items: center;
@@ -99,7 +99,7 @@ onMounted(() => {
             style="
               font-family: OldTypeNr, FZRui;
               position: absolute;
-              left: 60px;
+              left: 70px;
               top: 250px;
               color: #000000;
               inline-size: 460px;

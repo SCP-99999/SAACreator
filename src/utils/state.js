@@ -96,7 +96,7 @@ export const state = reactive({
   windows: {
     main: { name: "主窗口", x: 0, y: 0, w: 1, h: 1, zIndex: 1, visible: true, active: false },
     description: { name: "人物介绍", x: 10, y: 250, w: 310, h: 400, zIndex: 1, visible: true, active: false },
-    news: { name: "新闻", x: -37, y: 189, w: 1, h: 1, zIndex: 2, visible: false, active: false },
+    news: { name: "新闻", x: -37, y: 189, zIndex: 2, visible: false, active: false },
     superevent: { name: "超事件", x: 300, y: 240, w: 1, h: 1, zIndex: 1, visible: true, active: false },
     event: { name: "事件", x: 150, y: 10, w: 1, h: 1, zIndex: 5, visible: false, active: false },
     flag: {
