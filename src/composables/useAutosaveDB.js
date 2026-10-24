@@ -1,76 +1,62 @@
-import { ref } from "vue";
-
-const DB_NAME = "CreativeTFR";
-const STORE_NAME = "autosave";
 import { useDB } from "./useDB";
 
+const STORE_NAME = "autosave";
+
 export function useAutosaveDB() {
-  const { db, isInitialized, initDB } = useDB();
+  const { db, initDB } = useDB();
 
+  // ✅ 自动保存：手动塞入主键 id，内容转为纯字符串
   const setAutoSave = async (data) => {
-    try {
-      if (!isInitialized.value) {
-        await initDB();
-      }
-      return new Promise((resolve, reject) => {
-        const transaction = db.value.transaction([STORE_NAME], "readwrite");
-        const store = transaction.objectStore(STORE_NAME);
-        const request = store.put({ id: 0, data: data });
-
-        request.onsuccess = () => resolve(request.result);
-        request.onerror = () => {
-          console.error("Set autosave error:", request.error);
-          reject(request.error);
-        };
+    await initDB();
+    return new Promise((resolve, reject) => {
+      const transaction = db.value.transaction([STORE_NAME], "readwrite");
+      const store = transaction.objectStore(STORE_NAME);
+      
+      const request = store.put({
+        id: "autosave_data", 
+        content: JSON.stringify(data)
       });
-    } catch (error) {
-      console.error("Failed to set autosave:", error);
-      throw error;
-    }
+
+      request.onsuccess = () => resolve();
+      request.onerror = (e) => reject(e.target.error);
+    });
   };
 
+  // ✅ 读取自动保存
   const getAutoSave = async () => {
-    try {
-      if (!isInitialized.value) {
-        await initDB();
-      }
-      return new Promise((resolve, reject) => {
-        const transaction = db.value.transaction([STORE_NAME], "readonly");
-        const store = transaction.objectStore(STORE_NAME);
-        const request = store.get(0);
+    await initDB();
+    return new Promise((resolve, reject) => {
+      const transaction = db.value.transaction([STORE_NAME], "readonly");
+      const store = transaction.objectStore(STORE_NAME);
+      const request = store.get("autosave_data");
 
-        request.onsuccess = () => resolve(request.result);
-        request.onerror = () => {
-          console.error("Get autosave error:", request.error);
-          reject(request.error);
-        };
-      });
-    } catch (error) {
-      console.error("Failed to get autosave:", error);
-      throw error;
-    }
+      request.onsuccess = () => {
+        if (request.result && request.result.content) {
+          try {
+            resolve(JSON.parse(request.result.content));
+          } catch (e) {
+            console.error("解析自动保存数据失败", e);
+            resolve(null);
+          }
+        } else {
+          resolve(null);
+        }
+      };
+      request.onerror = (e) => reject(e.target.error);
+    });
   };
 
+  // ✅ 清除自动保存
   const clearAutoSave = async () => {
-    try {
-      if (!isInitialized.value) {
-        await initDB();
-      }
-      return new Promise((resolve, reject) => {
-        const transaction = db.value.transaction([STORE_NAME], "readwrite");
-        const store = transaction.objectStore(STORE_NAME);
-        const request = store.put({ id: 0, data: {} }); // Clear data instead of deleting
+    await initDB();
+    return new Promise((resolve, reject) => {
+      const transaction = db.value.transaction([STORE_NAME], "readwrite");
+      const store = transaction.objectStore(STORE_NAME);
+      const request = store.delete("autosave_data");
 
-        request.onsuccess = () => resolve();
-        request.onerror = () => {
-          console.error("Clear autosave error:", request.error);
-          reject(request.error);
-        };
-      });
-    } catch (error) {
-      console.error("Failed to clear autosave:", error);
-      throw error;
-    }
+      request.onsuccess = () => resolve();
+      request.onerror = (e) => reject(e.target.error);
+    });
   };
 
   return {

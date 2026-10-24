@@ -4,9 +4,9 @@
       <div class="window-controls">
         <h3>窗口控制</h3>
         <div class="windowtoggle">
-          <div v-for="(window, key) in windows" :key="key" class="toggle-item">
-            <span>{{ window.name }}</span>
-            <ToggleSwitch v-model="window.visible" />
+          <div v-for="window in validWindows" :key="window.key" class="toggle-item">
+            <span>{{ window.data.name }}</span>
+            <ToggleSwitch v-model="window.data.visible" />
           </div>
         </div>
         <div class="toggle-item">
@@ -71,7 +71,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import Dialog from "primevue/dialog";
 import Button from "primevue/button";
 import InputText from "primevue/inputtext";
@@ -83,12 +83,14 @@ import Divider from 'primevue/divider';
 import { usePresetDB } from "@/composables/usePresetDB";
 import { formatDate } from "@/utils/format";
 import { GetData, SetData } from "@/utils/utilities";
-import JSZip from 'jszip'
-import moment from 'moment'
-import { saveAs } from 'file-saver'
+import JSZip from 'jszip';
+import moment from 'moment';
+import { saveAs } from 'file-saver';
 import { useAutosaveDB } from "@/composables/useAutosaveDB";
+import { Howl } from 'howler';
+import { state } from "@/utils/state.js";
 
-defineProps({
+const props = defineProps({
   windows: Object,
   draggable: Boolean,
 });
@@ -104,9 +106,17 @@ const selectedPresets = ref(null);
 const renameDialogVisible = ref(false);
 const newPresetName = ref("");
 
-// rowClass 函数
-const rowClass = (data) => {
-  return null;
+// ✅ 安全过滤 windows 数据，防止出现空白开关
+const validWindows = computed(() => {
+  if (!props.windows) return [];
+  const allowedKeys = ["main", "description", "news", "superevent", "event", "flag", "altLeader"];
+  return allowedKeys
+    .filter((key) => props.windows[key])
+    .map((key) => ({ key, data: props.windows[key] }));
+});
+
+const rowClass = () => {
+  return { "cursor-pointer": true };
 };
 
 const updateBackground = () => {
@@ -129,13 +139,22 @@ const savePreset = async () => {
   const presetName = prompt("请输入预设名称:");
   if (!presetName) return;
 
-  const presetData = {
-    name: presetName,
-    data: GetData(),
-    saveTime: new Date(),
-  };
-  const id = await addPreset(presetData);
-  presets.value.push({ id, ...presetData });
+  try {
+    // ✅ 关键：把 Proxy 转成纯 JSON 再存，彻底告别 DataCloneError
+    const rawData = GetData();
+    const pureData = JSON.parse(JSON.stringify(rawData));
+
+    const presetData = {
+      name: presetName,
+      data: pureData,
+      saveTime: new Date().toISOString(), // 用字符串存时间，更稳定
+    };
+    const id = await addPreset(presetData);
+    presets.value.push({ id, ...presetData });
+  } catch (e) {
+    alert("保存失败：\n" + e.message);
+    console.error(e);
+  }
 };
 
 const loadPreset = async (presetId) => {
@@ -183,45 +202,49 @@ const showRenameDialog = () => {
   }
 };
 
-// helper to strip characters not allowed in filenames
 function sanitizeFilename(name) {
-  if (!name) return ''
-  return String(name).replace(/[:\/\\\?\%\"\*\<\>\|]/g, '-').trim()
+  if (!name) return '';
+  return String(name).replace(/[:\/\\\?\%\"\*\<\>\|]/g, '-').trim();
 }
 
 const exportPresets = async () => {
-  const now = moment().format('YYYY-MM-DD_HH-mm-ss')
-  const sel = (selectedPresets && selectedPresets.value) ? selectedPresets.value : []
+  try {
+    const now = moment().format('YYYY-MM-DD_HH-mm-ss');
+    const sel = (selectedPresets && selectedPresets.value) ? selectedPresets.value : [];
 
-  if (sel.length > 1) {
-    const zip = new JSZip()
-    sel.forEach(preset => {
-      const fname = sanitizeFilename(preset.name) || `preset-${now}`
-      zip.file(`${fname}.json`, JSON.stringify(preset, null, 2))
-    })
+    if (sel.length > 1) {
+      const zip = new JSZip();
+      sel.forEach(preset => {
+        const fname = sanitizeFilename(preset.name) || `preset-${now}`;
+        zip.file(`${fname}.json`, JSON.stringify(preset, null, 2));
+      });
+      const blob = await zip.generateAsync({ type: 'blob' });
+      saveAs(blob, `${now}.zip`);
+      return;
+    }
 
-    const blob = await zip.generateAsync({ type: 'blob' })
-    saveAs(blob, `${now}.zip`)
-    return
+    if (sel.length === 1) {
+      const preset = sel[0];
+      const fname = sanitizeFilename(preset.name) || now;
+      const blob = new Blob([JSON.stringify(preset, null, 2)], { type: 'application/json' });
+      saveAs(blob, `${fname}.json`);
+      return;
+    }
+
+    // 如果没选中任何预设，直接导出当前数据
+    const currentData = JSON.parse(JSON.stringify(GetData()));
+    const exportObj = {
+      name: now,
+      data: currentData,
+      saveTime: new Date().toISOString()
+    };
+    const blob = new Blob([JSON.stringify(exportObj, null, 2)], { type: 'application/json' });
+    saveAs(blob, `${now}.json`);
+  } catch (error) {
+    alert("导出失败：\n" + error.message);
+    console.error(error);
   }
-
-  if (sel.length === 1) {
-    const preset = sel[0]
-    const fname = sanitizeFilename(preset.name) || now
-    const blob = new Blob([JSON.stringify(preset, null, 2)], { type: 'application/json' })
-    saveAs(blob, `${fname}.json`)
-    return
-  }
-
-  const currentData = GetData()
-  const exportObj = {
-    name: now,
-    data: currentData,
-    saveTime: new Date()
-  }
-  const blob = new Blob([JSON.stringify(exportObj, null, 2)], { type: 'application/json' })
-  saveAs(blob, `${now}.json`)
-}
+};
 
 const importPresets = async (event) => {
   const files = event.files;
@@ -251,12 +274,6 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.control-panel-dialog {
-  :deep(.p-dialog-content) {
-    padding: 1.5rem;
-  }
-}
-
 .control-panel-container {
   display: flex;
   flex-direction: row;
@@ -265,15 +282,10 @@ onMounted(async () => {
 }
 
 .preset-management,
-.window-controls,
-.priority-management {
+.window-controls {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-}
-
-.search-container {
-  margin-bottom: 1rem;
 }
 
 .table-container {
@@ -295,36 +307,27 @@ onMounted(async () => {
 :deep(.p-datatable) {
   flex: 1;
   min-width: 0;
-
-  .p-datatable-thead>tr>th {
-    background: var(--surface-section);
-    color: var(--text-color);
-    font-weight: 600;
-    padding: 0.75rem;
-  }
-
-  .p-datatable-tbody>tr {
-    &:hover {
-      background: var(--surface-hover);
-    }
-  }
-
-  .p-datatable-tbody>tr>td {
-    padding: 0.75rem;
-  }
-
-  .p-paginator {
-    background: var(--surface-section);
-    border: 1px solid var(--surface-border);
-    border-radius: 0 0 6px 6px;
-    padding: 0.5rem;
-  }
 }
-
-:deep(.p-button) {
-  &.p-button-text {
-    padding: 0.5rem;
-  }
+:deep(.p-datatable-thead > tr > th) {
+  background: var(--surface-section);
+  color: var(--text-color);
+  font-weight: 600;
+  padding: 0.75rem;
+}
+:deep(.p-datatable-tbody > tr:hover) {
+  background: var(--surface-hover);
+}
+:deep(.p-datatable-tbody > tr > td) {
+  padding: 0.75rem;
+}
+:deep(.p-paginator) {
+  background: var(--surface-section);
+  border: 1px solid var(--surface-border);
+  border-radius: 0 0 6px 6px;
+  padding: 0.5rem;
+}
+:deep(.p-button.p-button-text) {
+  padding: 0.5rem;
 }
 
 .toggle-item {

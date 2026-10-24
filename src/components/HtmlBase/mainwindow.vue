@@ -1,5 +1,5 @@
 <script setup>
-import { inject, ref, onMounted } from "vue";
+import { inject, ref } from "vue";
 import Pie from "./piechart.vue";
 import ChartEditor from "../Controller/ChartEditor.vue";
 import { state } from "@/utils/state.js";
@@ -29,7 +29,6 @@ const handleShow = () => {
       
       <div style="position: absolute; top: 13px; left: 15px; height: 64px; width: 103px; z-index: 0;">
         <img id="flag-overlay" src="/template/flag_overlay.png" data-modifiable="true" data-type="flag" data-resizable="false" data-target-id="master-flag" :style="{ position: 'absolute', top: '0', left: '0', height: 'inherit', width: 'inherit', scale: 1.3, zIndex: 2 }" />
-        <!-- ✅ 用原图，不加任何 transform -->
         <img id="master-flag" class="pic" 
              :src="state.flagImageSrc"
              style="position: absolute; top: 0; left: 0; height: inherit; width: inherit; object-fit: cover;" />
@@ -58,11 +57,43 @@ const handleShow = () => {
         <img id="focuspic" class="pic" src="/preset/goal_unknown.png" data-modifiable="true" data-type="focus" data-resizable="true" data-initial-scale="0.9" :style="{ position: 'absolute', scale: 0.9 }" data-target-id="focuspic" />
       </div>
 
+      <!-- 饼图区 -->
       <div style="position: absolute; top: 64.4px; left: 129.6px; width: 100px; height: 100px; z-index: 1; pointer-events: none;">
-        <Pie class="piechart" style="position: absolute; top: 4px; left: 0px; width: 100px; height: 100px; background: none; scale: 0.6; z-index: 1;" v-model="state.chartData" />
+        <Pie class="piechart" style="position: absolute; top: 4px; left: 0px; width: 100px; height: 100px; background: none; scale: 0.6; zIndex: 1;" v-model="state.chartData" />
       </div>
-      <img src="/template/pol_piechart_overlay_63x63.png" style="position: absolute; top: 68px; left: 129px; width: 63px; height: 63px; scale: 1.0; z-index: 5;" @click="editorVisible = true" />
 
+      <img 
+        id="piechartcenter" 
+        class="pic" 
+        v-show="state.pieChartCenterImage"
+        :src="state.pieChartCenterImage"
+        data-modifiable="true"
+        data-type="piechartcenter" 
+        data-resizable="true"
+        data-initial-scale="0.6"
+        :style="{ 
+          position: 'absolute', top: '68.5px', left: '129px', width: '100px', height: '100px', scale: 0.6, zIndex: 1, objectFit: 'contain', pointerEvents: 'auto', cursor: 'pointer'
+        }" 
+        data-target-id="piechartcenter" 
+      />
+      
+      <div 
+        v-show="!state.pieChartCenterImage"
+        style="position: absolute; top: 64.4px; left: 129.6px; width: 100px; height: 100px; z-index: 2; cursor: pointer;"
+        data-modifiable="true"
+        data-type="piechartcenter" 
+        data-resizable="true"
+        data-target-id="piechartcenter"
+      ></div>
+
+      <div 
+        style="position: absolute; top: 64.4px; left: 129.6px; width: 100px; height: 100px; z-index: 8; display: flex; justify-content: center; align-items: center;"
+        @click.stop="editorVisible = true"
+      >
+        <img src="/template/pol_piechart_overlay_63x63.png" style="width: 63px; height: 63px; scale: 1.0; pointer-events: none;" />
+      </div>
+
+      <!-- 文字区 -->
       <div style="z-index: 3; position: absolute; left: 215px; top: 22px; font-family: Bombard, FZWH; font-size: 14px;">
         <div style="position: relative; width: max-content; height: 20px;">
           <p id="country" class="text" style="position: relative; top: -8px; left: 0; width: max-content; color: #ffffff; margin: 0; z-index: 2; pointer-events: none; paint-order: stroke; -webkit-text-stroke: 3px #000000; text-stroke: 3px #000000;" v-html="textLinesTop[0]"></p>

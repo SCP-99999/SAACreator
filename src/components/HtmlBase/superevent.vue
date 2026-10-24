@@ -21,8 +21,7 @@ const superButtonText = inject('superButtonText', '风云已起');
         position: absolute;
         top: 105px;
         left: 35px;
-        width: 950px;
-        height: 715px;
+        width: 930px
       ">
       <img id="superpic" class="pic" src="/preset/german_civil_war.png"
         style="height: inherit; width: inherit; z-index: 0" />

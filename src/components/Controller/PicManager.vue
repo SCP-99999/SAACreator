@@ -133,7 +133,6 @@
                                     @load="onCropImageLoad"
                                 />
 
-                                <!-- 裁剪框（比例 448:285 ≈ 1.572） -->
                                 <div 
                                     style="
                                         position: absolute;
@@ -178,10 +177,6 @@
                                     <Button label="重置" @click="resetFlagCrop" size="small" severity="secondary" />
                                     <Button label="应用" @click="applyFlagCrop" size="small" />
                                 </div>
-                                <div style="font-size: 11px; color: #666; margin-top: 8px; line-height: 1.5;">
-                                    提示：在画布上拖动图片调整位置，<br />
-                                    用缩放比例控制大小，点击"应用"保存裁剪结果。
-                                </div>
                             </div>
                         </div>
                     </TabPanel>
@@ -197,8 +192,7 @@
             </span>
         </div>
         <template #footer>
-            <Button label="取消" icon="pi pi-times" @click="renameDialogVisible = false" class="p-button-text"
-                size="small" />
+            <Button label="取消" icon="pi pi-times" @click="renameDialogVisible = false" class="p-button-text" size="small" />
             <Button label="确定" icon="pi pi-check" @click="renamePic" :disabled="!newFilename" size="small" />
         </template>
     </Dialog>
@@ -254,19 +248,12 @@ const cropOffsetY = ref(0);
 const cropScale = ref(1);
 const cropShowGrid = ref(true);
 
-// 图片原始尺寸
 const cropImageNatW = ref(0);
 const cropImageNatH = ref(0);
-
-// 画布尺寸
 const canvasW = 600;
 const canvasH = 400;
-
-// ✅ 裁剪框输出尺寸（原比例 448:285）
 const cropFrameW = 448;
 const cropFrameH = 285;
-
-// 画布中的裁剪框尺寸
 const cropBoxW = 471;
 const cropBoxH = 300;
 
@@ -322,7 +309,6 @@ const onCropMouseUp = () => {
     document.removeEventListener("mouseup", onCropMouseUp);
 };
 
-// ✅ 应用裁剪
 const applyFlagCrop = () => {
     const img = new Image();
     img.crossOrigin = "anonymous";

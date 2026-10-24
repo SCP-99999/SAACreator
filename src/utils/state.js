@@ -23,6 +23,8 @@ export const state = reactive({
     }],
     options: { rotation: 90 },
   },
+  // ✅ 饼图正中间的图片
+  pieChartCenterImage: "",
 
   // ============================================================
   //  2. 国家精神（图标 + 右侧文字）
@@ -34,36 +36,39 @@ export const state = reactive({
     { id: 4, url: "/preset/Reich_GER_idea_GER_to_banish_want.png", filename: "Reich_GER_idea_GER_to_banish_want", scale: 1.0 },
   ],
   spiritTexts: ["1. 军阀割据", "2. 柏林之战", "3. 分崩离析的国家"],
-
-  // ✅ 国家精神文字区域的位置和大小
   spiritTextsPos: { x: 330, y: -132, w: 150, h: 72 },
-  // ✅ 是否固定（true = 不可拖动缩放）
   spiritTextsLocked: false,
 
   // ============================================================
-  //  3. 领袖数据
+  //  3. 领袖及左侧面板文字
   // ============================================================
+  textLinesTop: ["大日耳曼国", "团结协定", "国会紧急委员会"],
+  textLines: ["纳粹党", "国家社会主义", "无选举"],
+  focusText: "未知国策",
   leaderName: "国会紧急委员会",
+  leaderNickname: "",
+  altLeaderTitle: "副总统",
+  altLeaderName: "人名",
+  altLeaderImageSrc: "/template/Leader_Background.png",
 
   // ============================================================
-  //  4. 经济数据
+  //  4. 人物介绍
   // ============================================================
-  economy: {
-    text: "纳粹法团经济",
-    iconUrl: "/preset/Gelenkte_Wirtschaft.png"
-  },
+  descBodyText: "元首已不幸病故，举国震惊。毕竟，谁能想到这位不可战胜之人会这样死去呢？\n\n但国会对此早有准备。\n\n尽管元首早已点出他的继承者，但政府内部依然各执一词。改革派、保守派、强硬派、狂热派互相撕咬，和平有序进行权力交接的幌子顷刻间烟消云散。斗争的结果是，一群中间派、无名官僚和不受其他派系欢迎的国会议员们联合起来，遵循着三十年来为众人所忽视的宪法，宣布成立过渡行政机关，直至新任元首宣誓就职。\n\n元首之位的主要竞争者都对紧急委员会漠不关心，对他们而言，委员会充其量只是群坐冷板凳的家伙；若以冷眼观之，那么他们就是桀骜不驯的叛徒。唯一值得欣慰的是，他们的存在给日耳曼尼亚带来了一丝脆弱的稳定，防止这座城市陷入混乱，如此便可能会有一位更有能力的领导人出来重掌大局，希望如此。他们或许可以保住罗马不在烈火中化为废墟，却无法阻止帝国的其他部分被烈焰所吞噬。",
 
   // ============================================================
   //  5. 新闻报纸数据
   // ============================================================
   newsTitle: "德国内战",
   newsBody: "在阿道夫·希特勒去世后，德国旋即陷入混乱。尽管元首指定了合法的继任者，但德国国内的强大派系已经开始拿起武器，互相对抗，打算将国家引导向自己的期望。国家已被分裂，整支整支的驻军无视来自日耳曼尼亚的命令，并倒向他们选择的继任者。虽然局势的严重程度尚不清楚，但据估计，德国要么正在面临要么已经经历了中央权威的彻底崩溃。\n\n虽然还不大清楚德国东部领地的命运将会如何，但日耳曼尼亚与她的殖民领之间突然断绝了联系，这已经引发了这些地区是否也会自行寻找出路的猜测。然而，有一点毫无疑问，这个欧洲巨人的崩溃已经使整个欧陆陷入分崩离析之中。",
-  newsOptionText: "帝国的终结。",
+  newsButtonText: "帝国的终结。",
 
   // ============================================================
-  //  6. 大选数据
+  //  6. 超事件数据
   // ============================================================
-  electionText: "无选举",
+  superTitle: "德国内战",
+  superMotto: "因此，所有人都必须认识到这一点：\n与国家的存在相比，他的自我毫无意义。\n- 阿道夫·希特勒",
+  superButtonText: "风云已起",
 
   // ============================================================
   //  7. 事件窗口文字
@@ -75,11 +80,8 @@ export const state = reactive({
   // ============================================================
   //  8. 旗帜框数据
   // ============================================================
-  // ✅ 原图（mainwindow 的 master-flag 用）
   flagImageSrc: "/preset/GER.png",
-  // ✅ 裁剪后的图（Flag.vue 的 flagpic 用）
   flagImageSrcCropped: "/preset/GER.png",
-  // ✅ 旗帜裁剪参数（偏移 + 缩放）
   flagCrop: { offsetX: 0, offsetY: 0, scale: 1 },
 
   // ============================================================
@@ -96,19 +98,11 @@ export const state = reactive({
   windows: {
     main: { name: "主窗口", x: 0, y: 0, w: 1, h: 1, zIndex: 1, visible: true, active: false },
     description: { name: "人物介绍", x: 10, y: 250, w: 310, h: 400, zIndex: 1, visible: true, active: false },
-    news: { name: "新闻", x: -37, y: 189, zIndex: 2, visible: false, active: false },
+    news: { name: "新闻", x: -37, y: 189, w: 1, h: 1, zIndex: 2, visible: false, active: false },
     superevent: { name: "超事件", x: 300, y: 240, w: 1, h: 1, zIndex: 1, visible: true, active: false },
     event: { name: "事件", x: 150, y: 10, w: 1, h: 1, zIndex: 5, visible: false, active: false },
-    flag: {
-      name: "旗帜框",
-      x: 750, y: 10, w: 0, h: 0,
-      zIndex: 1, visible: true, active: false,
-    },
-    altLeader: {
-      name: "副领导人",
-      x: 540, y: 0, w: 200, h: 280,
-      zIndex: 1, visible: true, active: false,
-    },
+    flag: { name: "旗帜框", x: 740, y: 10, w: 0, h: 0, zIndex: 1, visible: true, active: false },
+    altLeader: { name: "副领导人", x: 540, y: 0, w: 200, h: 280, zIndex: 1, visible: true, active: false },
   }
 });
 

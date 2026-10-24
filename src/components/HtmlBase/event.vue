@@ -12,7 +12,6 @@ const tileHeight = 111;
 const calculateTileCount = () => {
     nextTick(() => {
         if (eventBodyRef.value) {
-            if (eventBodyRef.value.dataset.editing === "true") return;
             const computedStyle = window.getComputedStyle(eventBodyRef.value);
             const contentHeight = parseFloat(computedStyle.height.replace('px', ''));
             if (!isNaN(contentHeight) && contentHeight > 0) {
