@@ -52,7 +52,7 @@ const superButtonText = inject('superButtonText', '风云已起');
       </p>
     </div>
 
-    <div style="position: absolute; top: 845px; left: 325px; z-index: 5;">
+    <div style="position: absolute; top: 848px; left: 325px; z-index: 5;">
       <div style="
           position: relative;
           width: 340px;

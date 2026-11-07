@@ -138,7 +138,7 @@ const initialPositions = {
   main: { x: 0, y: 0 }, description: { x: 10, y: 250 }, news: { x: -37, y: 189 },
   superevent: { x: 300, y: 240 }, event: { x: 150, y: 10 }, altLeader: { x: 540, y: 0 },
 };
-const flagOriginalX = 640;
+const flagOriginalX = 740;
 let hasMovedAnyComponent = false;
 
 watch(
@@ -161,7 +161,7 @@ watch(
 watch(
   () => state.windows.altLeader.visible,
   (isVisible) => {
-    if (!hasMovedAnyComponent && !isVisible) state.windows.flag.x = flagOriginalX - 30;
+    if (!hasMovedAnyComponent && !isVisible) state.windows.flag.x = flagOriginalX - 120;
     else if (!hasMovedAnyComponent && isVisible) state.windows.flag.x = flagOriginalX;
   }
 );

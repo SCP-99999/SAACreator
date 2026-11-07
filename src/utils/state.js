@@ -101,8 +101,8 @@ export const state = reactive({
     news: { name: "新闻", x: -37, y: 189, w: 1, h: 1, zIndex: 2, visible: false, active: false },
     superevent: { name: "超事件", x: 300, y: 240, w: 1, h: 1, zIndex: 1, visible: true, active: false },
     event: { name: "事件", x: 150, y: 10, w: 1, h: 1, zIndex: 5, visible: false, active: false },
-    flag: { name: "旗帜框", x: 740, y: 10, w: 0, h: 0, zIndex: 1, visible: true, active: false },
-    altLeader: { name: "副领导人", x: 540, y: 0, w: 200, h: 280, zIndex: 1, visible: true, active: false },
+    flag: { name: "旗帜框", x: 620, y: 10, w: 0, h: 0, zIndex: 1, visible: true, active: false },
+    altLeader: { name: "副领导人", x: 540, y: 0, w: 200, h: 280, zIndex: 1, visible: false, active: false },
   }
 });
 

@@ -58,7 +58,7 @@ const handleShow = () => {
       </div>
 
       <!-- 饼图区 -->
-      <div style="position: absolute; top: 64.4px; left: 129.6px; width: 100px; height: 100px; z-index: 1; pointer-events: none;">
+      <div style="position: absolute; top: 64.4px; left: 128.5px; width: 100px; height: 100px; z-index: 1; pointer-events: none;">
         <Pie class="piechart" style="position: absolute; top: 4px; left: 0px; width: 100px; height: 100px; background: none; scale: 0.6; zIndex: 1;" v-model="state.chartData" />
       </div>
 
@@ -79,7 +79,7 @@ const handleShow = () => {
       
       <div 
         v-show="!state.pieChartCenterImage"
-        style="position: absolute; top: 64.4px; left: 129.6px; width: 100px; height: 100px; z-index: 2; cursor: pointer;"
+        style="position: absolute; top: 64.4px; left: 129.6px; width: 100px; height: 100px; z-index: 2;"
         data-modifiable="true"
         data-type="piechartcenter" 
         data-resizable="true"
